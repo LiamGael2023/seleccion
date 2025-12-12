@@ -112,12 +112,13 @@ ob_start();
 </div>
 
 <?php
-$customScripts = <<<'HTML'
+$appUrl = APP_URL;
+$customScripts = <<<HTML
 <script>
 function editarArea(id, nombre, descripcion) {
     document.getElementById('edit_nombre').value = nombre;
     document.getElementById('edit_descripcion').value = descripcion;
-    document.getElementById('formEditarArea').action = '<?= APP_URL ?>/admin/areas/' + id + '/update';
+    document.getElementById('formEditarArea').action = '$appUrl/admin/areas/' + id + '/update';
 
     var modal = new bootstrap.Modal(document.getElementById('modalEditarArea'));
     modal.show();
@@ -125,7 +126,7 @@ function editarArea(id, nombre, descripcion) {
 
 function eliminarArea(id) {
     if (confirm('¿Estás seguro de eliminar esta área?')) {
-        window.location.href = '<?= APP_URL ?>/admin/areas/' + id + '/delete';
+        window.location.href = '$appUrl/admin/areas/' + id + '/delete';
     }
 }
 </script>

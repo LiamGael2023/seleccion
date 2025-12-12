@@ -124,12 +124,13 @@ ob_start();
 </div>
 
 <?php
-$customScripts = <<<'HTML'
+$appUrl = APP_URL;
+$customScripts = <<<HTML
 <script>
 function editarCarrera(id, nombre, nivel) {
     document.getElementById('edit_nombre').value = nombre;
     document.getElementById('edit_nivel').value = nivel;
-    document.getElementById('formEditarCarrera').action = '<?= APP_URL ?>/admin/carreras/' + id + '/update';
+    document.getElementById('formEditarCarrera').action = '$appUrl/admin/carreras/' + id + '/update';
 
     var modal = new bootstrap.Modal(document.getElementById('modalEditarCarrera'));
     modal.show();
@@ -137,7 +138,7 @@ function editarCarrera(id, nombre, nivel) {
 
 function eliminarCarrera(id) {
     if (confirm('¿Estás seguro de eliminar esta carrera?')) {
-        window.location.href = '<?= APP_URL ?>/admin/carreras/' + id + '/delete';
+        window.location.href = '$appUrl/admin/carreras/' + id + '/delete';
     }
 }
 </script>

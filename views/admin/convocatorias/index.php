@@ -82,11 +82,12 @@ ob_start();
 </div>
 
 <?php
-$customScripts = <<<'HTML'
+$appUrl = APP_URL;
+$customScripts = <<<HTML
 <script>
 function confirmarEliminar(id) {
     if (confirm('¿Estás seguro de eliminar esta convocatoria? Se eliminarán todos sus perfiles y postulaciones.')) {
-        window.location.href = '<?= APP_URL ?>/admin/convocatorias/' + id + '/delete';
+        window.location.href = '$appUrl/admin/convocatorias/' + id + '/delete';
     }
 }
 </script>

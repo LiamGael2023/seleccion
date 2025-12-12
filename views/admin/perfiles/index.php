@@ -103,11 +103,12 @@ ob_start();
 <?php endif; ?>
 
 <?php
-$customScripts = <<<'HTML'
+$appUrl = APP_URL;
+$customScripts = <<<HTML
 <script>
 function confirmarEliminar(id) {
     if (confirm('¿Estás seguro de eliminar este perfil? Se eliminarán todas sus postulaciones.')) {
-        window.location.href = '<?= APP_URL ?>/admin/perfiles/' + id + '/delete';
+        window.location.href = '$appUrl/admin/perfiles/' + id + '/delete';
     }
 }
 </script>
