@@ -28,10 +28,37 @@
                     </a>
                 </h1>
                 <div class="navbar-nav flex-row order-md-last">
-                    <a href="<?= APP_URL ?>/login" class="btn btn-primary">
-                        <i class="ti ti-login icon"></i>
-                        Administración
-                    </a>
+                    <?php if (isset($_SESSION['postulante_id'])): ?>
+                        <!-- Usuario autenticado -->
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown">
+                                <span class="avatar avatar-sm" style="background-image: url(https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['postulante_nombre_completo'] ?? 'User') ?>&background=066fd1&color=fff)"></span>
+                                <div class="d-none d-xl-block ps-2">
+                                    <div><?= $_SESSION['postulante_nombre_completo'] ?? 'Postulante' ?></div>
+                                    <div class="mt-1 small text-muted">Postulante</div>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <a href="<?= APP_URL ?>/postulante/logout" class="dropdown-item">
+                                    <i class="ti ti-logout icon"></i> Cerrar sesión
+                                </a>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <!-- Usuario no autenticado -->
+                        <a href="<?= APP_URL ?>/postulante/registro" class="btn btn-outline-primary me-2">
+                            <i class="ti ti-user-plus icon"></i>
+                            Registrarse
+                        </a>
+                        <a href="<?= APP_URL ?>/postulante/login" class="btn btn-primary me-2">
+                            <i class="ti ti-login icon"></i>
+                            Iniciar Sesión
+                        </a>
+                        <a href="<?= APP_URL ?>/login" class="btn btn-secondary">
+                            <i class="ti ti-shield-lock icon"></i>
+                            Admin
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </header>
@@ -48,6 +75,16 @@
                         <a class="btn-close" data-bs-dismiss="alert"></a>
                     </div>
                     <?php unset($_SESSION['success']); endif; ?>
+
+                    <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <div class="d-flex">
+                            <div><i class="ti ti-alert-circle icon alert-icon"></i></div>
+                            <div><?= $_SESSION['error'] ?></div>
+                        </div>
+                        <a class="btn-close" data-bs-dismiss="alert"></a>
+                    </div>
+                    <?php unset($_SESSION['error']); endif; ?>
 
                     <?= $content ?? '' ?>
                 </div>

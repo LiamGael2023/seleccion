@@ -21,7 +21,14 @@ $router->get('/convocatoria/{id}', 'PublicController@show');
 $router->get('/perfil/{id}/aplicar', 'PublicController@aplicar');
 $router->post('/postular', 'PublicController@postular');
 
-// Rutas de autenticación
+// Rutas de autenticación de postulantes
+$router->get('/postulante/registro', 'PostulanteAuthController@registro');
+$router->post('/postulante/registro', 'PostulanteAuthController@registroPost');
+$router->get('/postulante/login', 'PostulanteAuthController@login');
+$router->post('/postulante/login', 'PostulanteAuthController@loginPost');
+$router->get('/postulante/logout', 'PostulanteAuthController@logout');
+
+// Rutas de autenticación administrativa
 $router->get('/login', 'AuthController@login');
 $router->post('/login', 'AuthController@login');
 $router->get('/logout', 'AuthController@logout');

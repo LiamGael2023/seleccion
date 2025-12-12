@@ -35,6 +35,13 @@ class PublicController extends Controller {
     }
 
     public function aplicar($perfilId) {
+        // Verificar que el postulante esté autenticado
+        if (!isset($_SESSION['postulante_id'])) {
+            $_SESSION['error'] = 'Debes iniciar sesión para postularte';
+            $_SESSION['return_url'] = '/perfil/' . $perfilId . '/aplicar';
+            $this->redirect('/postulante/login');
+        }
+
         $perfilModel = new Perfil();
         $perfil = $perfilModel->getById($perfilId);
 
@@ -53,7 +60,15 @@ class PublicController extends Controller {
         $carreraModel = new Carrera();
         $todasCarreras = $carreraModel->getActive();
 
-        $this->view('public/aplicar', compact('convocatoria', 'perfil', 'carreras', 'todasCarreras'));
+        // Pasar datos del postulante al formulario
+        $postulante = [
+            'nombres' => $_SESSION['postulante_nombres'] ?? '',
+            'apellido_paterno' => $_SESSION['postulante_apellido_paterno'] ?? '',
+            'apellido_materno' => $_SESSION['postulante_apellido_materno'] ?? '',
+            'email' => $_SESSION['postulante_email'] ?? ''
+        ];
+
+        $this->view('public/aplicar', compact('convocatoria', 'perfil', 'carreras', 'todasCarreras', 'postulante'));
     }
 
     public function postular() {
@@ -61,15 +76,23 @@ class PublicController extends Controller {
             $this->redirect('/');
         }
 
+        // Verificar que el postulante esté autenticado
+        if (!isset($_SESSION['postulante_id'])) {
+            $_SESSION['error'] = 'Debes iniciar sesión para postularte';
+            $this->redirect('/postulante/login');
+        }
+
         $candidatoModel = new Candidato();
         $postulacionModel = new Postulacion();
 
-        // Crear candidato
+        // Crear candidato vinculado al usuario postulante
+        // Los datos de nombre, apellido y email se toman de la sesión
         $candidatoData = [
-            'nombre' => $_POST['nombre'],
-            'apellido_paterno' => $_POST['apellido_paterno'],
-            'apellido_materno' => $_POST['apellido_materno'] ?? '',
-            'email' => $_POST['email'],
+            'usuario_postulante_id' => $_SESSION['postulante_id'],
+            'nombre' => $_SESSION['postulante_nombres'],
+            'apellido_paterno' => $_SESSION['postulante_apellido_paterno'],
+            'apellido_materno' => $_SESSION['postulante_apellido_materno'] ?? '',
+            'email' => $_SESSION['postulante_email'],
             'telefono' => $_POST['telefono'] ?? '',
             'fecha_nacimiento' => $_POST['fecha_nacimiento'] ?? null,
             'sexo' => $_POST['sexo'] ?? null,

@@ -29,23 +29,13 @@ ob_start();
                     <h3 class="card-title">Información Personal</h3>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label required">Nombre</label>
-                                <input type="text" name="nombre" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label required">Apellido Paterno</label>
-                                <input type="text" name="apellido_paterno" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Apellido Materno</label>
-                                <input type="text" name="apellido_materno" class="form-control">
+                    <!-- Datos del usuario registrado (no modificables) -->
+                    <div class="alert alert-info mb-3">
+                        <div class="d-flex">
+                            <div><i class="ti ti-info-circle icon alert-icon"></i></div>
+                            <div>
+                                <strong>Usuario autenticado:</strong> <?= htmlspecialchars($postulante['nombres'] . ' ' . $postulante['apellido_paterno'] . ' ' . $postulante['apellido_materno']) ?>
+                                <br><small>Estos datos fueron verificados al crear tu cuenta y no pueden modificarse.</small>
                             </div>
                         </div>
                     </div>
@@ -53,8 +43,33 @@ ob_start();
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label class="form-label required">Email</label>
-                                <input type="email" name="email" class="form-control" required>
+                                <label class="form-label">Nombres</label>
+                                <input type="text" class="form-control" value="<?= htmlspecialchars($postulante['nombres']) ?>" readonly>
+                                <small class="form-hint text-muted">Dato verificado con RENIEC</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Apellido Paterno</label>
+                                <input type="text" class="form-control" value="<?= htmlspecialchars($postulante['apellido_paterno']) ?>" readonly>
+                                <small class="form-hint text-muted">Dato verificado con RENIEC</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Apellido Materno</label>
+                                <input type="text" class="form-control" value="<?= htmlspecialchars($postulante['apellido_materno']) ?>" readonly>
+                                <small class="form-hint text-muted">Dato verificado con RENIEC</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" value="<?= htmlspecialchars($postulante['email']) ?>" readonly>
+                                <small class="form-hint text-muted">Email de tu cuenta</small>
                             </div>
                         </div>
                         <div class="col-md-4">
