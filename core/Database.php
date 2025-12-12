@@ -10,7 +10,12 @@ class Database {
         $config = require BASE_PATH . '/config/database.php';
 
         try {
-            $dsn = "mysql:host={$config['host']};dbname={$config['database']};charset={$config['charset']}";
+            $dsn = "mysql:host={$config['host']}";
+            if (isset($config['port'])) {
+                $dsn .= ";port={$config['port']}";
+            }
+            $dsn .= ";dbname={$config['database']};charset={$config['charset']}";
+
             $this->connection = new PDO($dsn, $config['username'], $config['password']);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);

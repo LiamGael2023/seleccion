@@ -32,46 +32,84 @@ git clone [url-del-repositorio]
 cd seleccion
 ```
 
+O descarga el ZIP y extráelo en `C:\xampp\htdocs\seleccion` (para XAMPP en Windows)
+
 ### 2. Configurar la base de datos
 
-Editar el archivo `config/database.php` con tus credenciales:
+**IMPORTANTE:** Copia el archivo de configuración de ejemplo:
+
+```bash
+# En Windows (CMD o PowerShell):
+copy config\database.example.php config\database.php
+
+# En Linux/Mac:
+cp config/database.example.php config/database.php
+```
+
+Luego edita `config/database.php` con tus credenciales:
 
 ```php
 define('DB_HOST', 'localhost');
+define('DB_PORT', '3307'); // 3307 para XAMPP, 3306 para MySQL estándar
 define('DB_NAME', 'seleccion_personal');
-define('DB_USER', 'tu_usuario');
-define('DB_PASS', 'tu_contraseña');
+define('DB_USER', 'root');
+define('DB_PASS', ''); // Tu contraseña de MySQL (vacía por defecto en XAMPP)
 ```
+
+**Nota para XAMPP:** Si MySQL usa el puerto 3307, asegúrate de configurarlo correctamente.
 
 ### 3. Importar la base de datos
 
+**Opción A - Desde phpMyAdmin (Recomendado para XAMPP):**
+1. Abre phpMyAdmin: `http://localhost/phpmyadmin` (o `http://localhost:8080/phpmyadmin`)
+2. Crea una nueva base de datos llamada `seleccion_personal`
+3. Selecciona la base de datos
+4. Ve a la pestaña "Importar"
+5. Selecciona el archivo `database.sql`
+6. Haz clic en "Continuar"
+
+**Opción B - Desde línea de comandos:**
+
 ```bash
+# Windows (XAMPP):
+C:\xampp\mysql\bin\mysql -u root -p --port=3307 < database.sql
+
+# Linux/Mac:
 mysql -u root -p < database.sql
 ```
 
-O desde phpMyAdmin:
-1. Crear base de datos `seleccion_personal`
-2. Importar el archivo `database.sql`
-
-### 4. Configurar permisos
+### 4. Configurar permisos (Solo Linux/Mac)
 
 ```bash
 chmod 755 public/uploads
 ```
 
+**En Windows:** Los permisos se configuran automáticamente.
+
 ### 5. Configurar la URL base
 
-Editar `config/app.php`:
+Edita `config/app.php`:
 
 ```php
+// Para XAMPP en Windows:
 define('APP_URL', 'http://localhost/seleccion');
+
+// Si usas otro puerto (ej: 8080):
+define('APP_URL', 'http://localhost:8080/seleccion');
 ```
 
-### 6. Configurar Apache
+### 6. Iniciar el servidor
 
-Si usas Apache, asegúrate de que el archivo `.htaccess` esté presente y mod_rewrite esté habilitado.
+**XAMPP:**
+1. Abre el Panel de Control de XAMPP
+2. Inicia Apache
+3. Inicia MySQL
+4. Accede a: `http://localhost/seleccion`
 
-Para habilitar mod_rewrite:
+**Apache (Linux/Mac):**
+
+Asegúrate de que el archivo `.htaccess` esté presente y mod_rewrite esté habilitado.
+
 ```bash
 sudo a2enmod rewrite
 sudo service apache2 restart
