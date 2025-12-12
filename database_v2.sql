@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS postulaciones (
 -- Insertar usuario administrador por defecto
 -- Password: admin123 (hasheado con password_hash)
 INSERT INTO usuarios (nombre, email, password, rol) VALUES
-('Administrador', 'admin@seleccion.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
+('Administrador', 'admin@seleccion.com', '$2y$12$i/fI3ro.fxOa7Ka41e2pAOy7NK5lUjLEZAjYp5iNP5PrO7Of5hlhu', 'admin');
 
 -- Insertar algunas áreas de ejemplo
 INSERT INTO areas (nombre, descripcion) VALUES
