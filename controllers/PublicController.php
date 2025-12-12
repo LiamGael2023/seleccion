@@ -1,6 +1,7 @@
 <?php
 require_once BASE_PATH . '/core/Controller.php';
 require_once BASE_PATH . '/models/Convocatoria.php';
+require_once BASE_PATH . '/models/Perfil.php';
 require_once BASE_PATH . '/models/Candidato.php';
 require_once BASE_PATH . '/models/Postulacion.php';
 require_once BASE_PATH . '/models/Carrera.php';
@@ -22,22 +23,37 @@ class PublicController extends Controller {
             $this->redirect('/');
         }
 
-        $carreras = $convocatoriaModel->getCarreras($id);
-        $this->view('public/detalle', compact('convocatoria', 'carreras'));
+        $perfilModel = new Perfil();
+        $perfiles = $perfilModel->getByConvocatoria($id);
+
+        // Obtener carreras para cada perfil
+        foreach ($perfiles as &$perfil) {
+            $perfil['carreras'] = $perfilModel->getCarreras($perfil['id']);
+        }
+
+        $this->view('public/detalle', compact('convocatoria', 'perfiles'));
     }
 
-    public function aplicar($id) {
+    public function aplicar($perfilId) {
+        $perfilModel = new Perfil();
+        $perfil = $perfilModel->getById($perfilId);
+
+        if (!$perfil) {
+            $this->redirect('/');
+        }
+
         $convocatoriaModel = new Convocatoria();
-        $convocatoria = $convocatoriaModel->getById($id);
+        $convocatoria = $convocatoriaModel->getById($perfil['convocatoria_id']);
 
         if (!$convocatoria || $convocatoria['estado'] !== 'publicada') {
             $this->redirect('/');
         }
 
+        $carreras = $perfilModel->getCarreras($perfilId);
         $carreraModel = new Carrera();
-        $carreras = $carreraModel->getActive();
+        $todasCarreras = $carreraModel->getActive();
 
-        $this->view('public/aplicar', compact('convocatoria', 'carreras'));
+        $this->view('public/aplicar', compact('convocatoria', 'perfil', 'carreras', 'todasCarreras'));
     }
 
     public function postular() {
@@ -81,6 +97,7 @@ class PublicController extends Controller {
         // Crear postulación
         $postulacionData = [
             'convocatoria_id' => $_POST['convocatoria_id'],
+            'perfil_id' => $_POST['perfil_id'],
             'candidato_id' => $candidatoId,
             'estado' => 'pendiente'
         ];

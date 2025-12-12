@@ -5,18 +5,18 @@ class Convocatoria extends Model {
     protected $table = 'convocatorias';
 
     public function getAllWithDetails() {
-        $sql = "SELECT c.*, a.nombre as area_nombre, u.nombre as usuario_nombre
+        $sql = "SELECT c.*, u.nombre as usuario_nombre,
+                (SELECT COUNT(*) FROM perfiles_convocatoria WHERE convocatoria_id = c.id) as total_perfiles
                 FROM {$this->table} c
-                LEFT JOIN areas a ON c.area_id = a.id
                 LEFT JOIN usuarios u ON c.usuario_id = u.id
                 ORDER BY c.created_at DESC";
         return $this->query($sql);
     }
 
     public function getPublicadas() {
-        $sql = "SELECT c.*, a.nombre as area_nombre
+        $sql = "SELECT c.*,
+                (SELECT COUNT(*) FROM perfiles_convocatoria WHERE convocatoria_id = c.id AND activo = 1) as total_perfiles
                 FROM {$this->table} c
-                LEFT JOIN areas a ON c.area_id = a.id
                 WHERE c.estado = 'publicada'
                 AND c.fecha_cierre >= CURDATE()
                 ORDER BY c.fecha_inicio DESC";
@@ -24,9 +24,9 @@ class Convocatoria extends Model {
     }
 
     public function getById($id) {
-        $sql = "SELECT c.*, a.nombre as area_nombre, u.nombre as usuario_nombre
+        $sql = "SELECT c.*, u.nombre as usuario_nombre,
+                (SELECT COUNT(*) FROM perfiles_convocatoria WHERE convocatoria_id = c.id) as total_perfiles
                 FROM {$this->table} c
-                LEFT JOIN areas a ON c.area_id = a.id
                 LEFT JOIN usuarios u ON c.usuario_id = u.id
                 WHERE c.id = :id LIMIT 1";
         $result = $this->query($sql, ['id' => $id]);
@@ -59,12 +59,26 @@ class Convocatoria extends Model {
                 CONCAT(c.nombre, ' ', c.apellido_paterno, ' ', c.apellido_materno) as candidato_nombre,
                 c.email as candidato_email,
                 c.telefono as candidato_telefono,
-                ca.nombre as carrera_nombre
+                ca.nombre as carrera_nombre,
+                pf.titulo as perfil_titulo
                 FROM postulaciones p
                 INNER JOIN candidatos c ON p.candidato_id = c.id
                 LEFT JOIN carreras ca ON c.carrera_id = ca.id
+                LEFT JOIN perfiles_convocatoria pf ON p.perfil_id = pf.id
                 WHERE p.convocatoria_id = :id
                 ORDER BY p.fecha_postulacion DESC";
         return $this->query($sql, ['id' => $convocatoriaId]);
+    }
+
+    public function getPerfiles($convocatoriaId) {
+        require_once BASE_PATH . '/models/Perfil.php';
+        $perfilModel = new Perfil();
+        return $perfilModel->getByConvocatoria($convocatoriaId);
+    }
+
+    public function countPerfiles($convocatoriaId) {
+        $sql = "SELECT COUNT(*) as total FROM perfiles_convocatoria WHERE convocatoria_id = :id AND activo = 1";
+        $result = $this->query($sql, ['id' => $convocatoriaId]);
+        return $result[0]['total'] ?? 0;
     }
 }

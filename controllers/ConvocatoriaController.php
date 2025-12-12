@@ -18,13 +18,7 @@ class ConvocatoriaController extends Controller {
     }
 
     public function create() {
-        $areaModel = new Area();
-        $carreraModel = new Carrera();
-
-        $areas = $areaModel->getActive();
-        $carreras = $carreraModel->getActive();
-
-        $this->view('admin/convocatorias/create', compact('areas', 'carreras'));
+        $this->view('admin/convocatorias/create');
     }
 
     public function store() {
@@ -34,17 +28,12 @@ class ConvocatoriaController extends Controller {
 
         $data = [
             'titulo' => $_POST['titulo'],
-            'area_id' => $_POST['area_id'],
-            'descripcion' => $_POST['descripcion'],
-            'requisitos' => $_POST['requisitos'],
-            'responsabilidades' => $_POST['responsabilidades'] ?? '',
+            'descripcion' => $_POST['descripcion'] ?? '',
             'salario_min' => $_POST['salario_min'] ?? null,
             'salario_max' => $_POST['salario_max'] ?? null,
             'tipo_contrato' => $_POST['tipo_contrato'],
-            'experiencia_requerida' => $_POST['experiencia_requerida'] ?? 0,
             'fecha_inicio' => $_POST['fecha_inicio'],
             'fecha_cierre' => $_POST['fecha_cierre'],
-            'vacantes' => $_POST['vacantes'] ?? 1,
             'estado' => $_POST['estado'] ?? 'borrador',
             'usuario_id' => $_SESSION['user_id']
         ];
@@ -52,34 +41,15 @@ class ConvocatoriaController extends Controller {
         $convocatoriaModel = new Convocatoria();
         $convocatoriaId = $convocatoriaModel->create($data);
 
-        if ($convocatoriaId && isset($_POST['carreras'])) {
-            foreach ($_POST['carreras'] as $carreraId) {
-                $convocatoriaModel->addCarrera($convocatoriaId, $carreraId);
-            }
-        }
-
-        $_SESSION['success'] = 'Convocatoria creada exitosamente';
-        $this->redirect('/admin/convocatorias');
+        $_SESSION['success'] = 'Convocatoria creada exitosamente. Ahora puedes agregar perfiles a esta convocatoria.';
+        $this->redirect('/admin/convocatorias/' . $convocatoriaId . '/perfiles');
     }
 
     public function edit($id) {
         $convocatoriaModel = new Convocatoria();
-        $areaModel = new Area();
-        $carreraModel = new Carrera();
-
         $convocatoria = $convocatoriaModel->find($id);
-        $areas = $areaModel->getActive();
-        $carreras = $carreraModel->getActive();
-        $carrerasSeleccionadas = $convocatoriaModel->getCarreras($id);
 
-        $carrerasIds = array_column($carrerasSeleccionadas, 'id');
-
-        $this->view('admin/convocatorias/edit', compact(
-            'convocatoria',
-            'areas',
-            'carreras',
-            'carrerasIds'
-        ));
+        $this->view('admin/convocatorias/edit', compact('convocatoria'));
     }
 
     public function update($id) {
@@ -89,29 +59,17 @@ class ConvocatoriaController extends Controller {
 
         $data = [
             'titulo' => $_POST['titulo'],
-            'area_id' => $_POST['area_id'],
-            'descripcion' => $_POST['descripcion'],
-            'requisitos' => $_POST['requisitos'],
-            'responsabilidades' => $_POST['responsabilidades'] ?? '',
+            'descripcion' => $_POST['descripcion'] ?? '',
             'salario_min' => $_POST['salario_min'] ?? null,
             'salario_max' => $_POST['salario_max'] ?? null,
             'tipo_contrato' => $_POST['tipo_contrato'],
-            'experiencia_requerida' => $_POST['experiencia_requerida'] ?? 0,
             'fecha_inicio' => $_POST['fecha_inicio'],
             'fecha_cierre' => $_POST['fecha_cierre'],
-            'vacantes' => $_POST['vacantes'] ?? 1,
             'estado' => $_POST['estado'] ?? 'borrador'
         ];
 
         $convocatoriaModel = new Convocatoria();
         $convocatoriaModel->update($id, $data);
-
-        $convocatoriaModel->removeAllCarreras($id);
-        if (isset($_POST['carreras'])) {
-            foreach ($_POST['carreras'] as $carreraId) {
-                $convocatoriaModel->addCarrera($id, $carreraId);
-            }
-        }
 
         $_SESSION['success'] = 'Convocatoria actualizada exitosamente';
         $this->redirect('/admin/convocatorias');

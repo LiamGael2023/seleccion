@@ -18,7 +18,7 @@ $router = new Router();
 // Rutas públicas
 $router->get('/', 'PublicController@index');
 $router->get('/convocatoria/{id}', 'PublicController@show');
-$router->get('/convocatoria/{id}/aplicar', 'PublicController@aplicar');
+$router->get('/perfil/{id}/aplicar', 'PublicController@aplicar');
 $router->post('/postular', 'PublicController@postular');
 
 // Rutas de autenticación
@@ -50,6 +50,15 @@ $router->get('/admin/carreras', 'CarreraController@index');
 $router->post('/admin/carreras/store', 'CarreraController@store');
 $router->post('/admin/carreras/{id}/update', 'CarreraController@update');
 $router->get('/admin/carreras/{id}/delete', 'CarreraController@delete');
+
+// Rutas de administración - Perfiles
+$router->get('/admin/convocatorias/{id}/perfiles', 'PerfilController@list');
+$router->get('/admin/convocatorias/{id}/perfiles/create', 'PerfilController@create');
+$router->post('/admin/convocatorias/{id}/perfiles/store', 'PerfilController@store');
+$router->get('/admin/perfiles/{id}/edit', 'PerfilController@edit');
+$router->post('/admin/perfiles/{id}/update', 'PerfilController@update');
+$router->get('/admin/perfiles/{id}/delete', 'PerfilController@delete');
+$router->get('/admin/perfiles/{id}/postulaciones', 'PerfilController@postulaciones');
 
 // Manejar ruta no encontrada
 $router->notFound(function() {
