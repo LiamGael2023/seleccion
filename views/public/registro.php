@@ -151,14 +151,17 @@ document.getElementById('btnBuscarDni').addEventListener('click', async function
     dniError.style.display = 'none';
 
     try {
-        // Llamar a la API de RENIEC
-        const response = await fetch('https://api.apis.net.pe/v1/dni?numero=' + dni);
+        // Llamar a nuestro proxy PHP (evita problemas de CORS)
+        const response = await fetch('<?= APP_URL ?>/api/consultar-dni?dni=' + dni);
 
-        if (!response.ok) {
-            throw new Error('No se pudo obtener los datos del DNI');
+        const result = await response.json();
+
+        // Verificar si hubo error
+        if (!response.ok || !result.success) {
+            throw new Error(result.error || 'No se pudo obtener los datos del DNI');
         }
 
-        const data = await response.json();
+        const data = result.data;
 
         // Validar que se obtuvieron datos
         if (!data.nombres || !data.apellidoPaterno) {

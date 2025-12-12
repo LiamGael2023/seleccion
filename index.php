@@ -27,6 +27,7 @@ $router->post('/postulante/registro', 'PostulanteAuthController@registroPost');
 $router->get('/postulante/login', 'PostulanteAuthController@login');
 $router->post('/postulante/login', 'PostulanteAuthController@loginPost');
 $router->get('/postulante/logout', 'PostulanteAuthController@logout');
+$router->get('/api/consultar-dni', 'PostulanteAuthController@consultarDni');
 
 // Rutas de autenticación administrativa
 $router->get('/login', 'AuthController@login');

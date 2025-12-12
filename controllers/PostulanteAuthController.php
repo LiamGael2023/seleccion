@@ -165,4 +165,68 @@ class PostulanteAuthController extends Controller {
         $_SESSION['success'] = 'Has cerrado sesión exitosamente';
         $this->redirect('/');
     }
+
+    /**
+     * Proxy para consultar DNI en API de RENIEC
+     * Evita problemas de CORS haciendo la petición desde el servidor
+     */
+    public function consultarDni() {
+        // Solo permitir peticiones GET
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            $this->json(['error' => 'Método no permitido'], 405);
+            return;
+        }
+
+        // Obtener y validar DNI
+        $dni = $_GET['dni'] ?? '';
+
+        if (!preg_match('/^\d{8}$/', $dni)) {
+            $this->json(['error' => 'El DNI debe tener 8 dígitos'], 400);
+            return;
+        }
+
+        // Hacer petición a la API de RENIEC
+        $url = 'https://api.apis.net.pe/v1/dni?numero=' . $dni;
+
+        // Inicializar cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Para desarrollo
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+        // Ejecutar petición
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+        curl_close($ch);
+
+        // Verificar errores de conexión
+        if ($curlError) {
+            $this->json(['error' => 'Error al conectar con el servicio de RENIEC'], 500);
+            return;
+        }
+
+        // Verificar código HTTP
+        if ($httpCode !== 200) {
+            $this->json(['error' => 'DNI no encontrado en RENIEC'], 404);
+            return;
+        }
+
+        // Decodificar respuesta
+        $data = json_decode($response, true);
+
+        // Verificar que se obtuvieron datos válidos
+        if (!$data || !isset($data['nombres']) || !isset($data['apellidoPaterno'])) {
+            $this->json(['error' => 'DNI no encontrado en RENIEC'], 404);
+            return;
+        }
+
+        // Devolver datos
+        $this->json([
+            'success' => true,
+            'data' => $data
+        ]);
+    }
 }
