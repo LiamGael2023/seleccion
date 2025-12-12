@@ -37,38 +37,35 @@ ob_start();
         <div class="card">
             <div class="card-body">
                 <h3 class="card-title"><?= htmlspecialchars($conv['titulo']) ?></h3>
-                <div class="text-muted mb-3">
-                    <i class="ti ti-building icon"></i> <?= htmlspecialchars($conv['area_nombre']) ?>
-                </div>
                 <div class="mb-2">
                     <span class="badge bg-blue-lt">
                         <?= ucfirst(str_replace('_', ' ', $conv['tipo_contrato'])) ?>
                     </span>
-                    <?php if ($conv['experiencia_requerida'] > 0): ?>
                     <span class="badge bg-cyan-lt">
-                        <?= $conv['experiencia_requerida'] ?> años exp.
+                        <?= $conv['total_perfiles'] ?? 0 ?> perfiles disponibles
                     </span>
-                    <?php endif; ?>
                 </div>
                 <div class="text-muted small mb-3">
                     <i class="ti ti-calendar icon"></i>
                     Cierre: <?= date('d/m/Y', strtotime($conv['fecha_cierre'])) ?>
                 </div>
+                <?php if (!empty($conv['descripcion'])): ?>
                 <div class="mb-3">
                     <?= nl2br(htmlspecialchars(substr($conv['descripcion'], 0, 150))) ?>
                     <?= strlen($conv['descripcion']) > 150 ? '...' : '' ?>
                 </div>
+                <?php endif; ?>
                 <div class="d-flex">
                     <a href="<?= APP_URL ?>/convocatoria/<?= $conv['id'] ?>" class="btn btn-primary w-100">
-                        Ver Detalles
+                        Ver Perfiles Disponibles
                     </a>
                 </div>
             </div>
             <div class="card-footer">
                 <div class="row align-items-center">
                     <div class="col">
-                        <div class="text-muted">
-                            <?= $conv['vacantes'] ?> <?= $conv['vacantes'] == 1 ? 'vacante' : 'vacantes' ?>
+                        <div class="text-muted small">
+                            Fecha de inicio: <?= date('d/m/Y', strtotime($conv['fecha_inicio'])) ?>
                         </div>
                     </div>
                 </div>

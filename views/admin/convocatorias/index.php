@@ -15,9 +15,8 @@ ob_start();
                     <tr>
                         <th>ID</th>
                         <th>Título</th>
-                        <th>Área</th>
                         <th>Tipo</th>
-                        <th>Vacantes</th>
+                        <th>Perfiles</th>
                         <th>Fecha Cierre</th>
                         <th>Estado</th>
                         <th class="w-1">Acciones</th>
@@ -26,7 +25,7 @@ ob_start();
                 <tbody>
                     <?php if (empty($convocatorias)): ?>
                     <tr>
-                        <td colspan="8" class="text-center text-muted py-4">
+                        <td colspan="7" class="text-center text-muted py-4">
                             No hay convocatorias registradas
                         </td>
                     </tr>
@@ -34,10 +33,16 @@ ob_start();
                     <?php foreach ($convocatorias as $conv): ?>
                     <tr>
                         <td><?= $conv['id'] ?></td>
-                        <td><?= htmlspecialchars($conv['titulo']) ?></td>
-                        <td class="text-muted"><?= htmlspecialchars($conv['area_nombre']) ?></td>
+                        <td>
+                            <strong><?= htmlspecialchars($conv['titulo']) ?></strong>
+                            <?php if (!empty($conv['descripcion'])): ?>
+                            <br><small class="text-muted"><?= htmlspecialchars(substr($conv['descripcion'], 0, 60)) ?><?= strlen($conv['descripcion']) > 60 ? '...' : '' ?></small>
+                            <?php endif; ?>
+                        </td>
                         <td><?= ucfirst(str_replace('_', ' ', $conv['tipo_contrato'])) ?></td>
-                        <td><?= $conv['vacantes'] ?></td>
+                        <td>
+                            <span class="badge bg-blue"><?= $conv['total_perfiles'] ?? 0 ?> perfiles</span>
+                        </td>
                         <td><?= date('d/m/Y', strtotime($conv['fecha_cierre'])) ?></td>
                         <td>
                             <?php
@@ -53,10 +58,13 @@ ob_start();
                         </td>
                         <td>
                             <div class="btn-group" role="group">
+                                <a href="<?= APP_URL ?>/admin/convocatorias/<?= $conv['id'] ?>/perfiles" class="btn btn-sm btn-primary" title="Gestionar perfiles">
+                                    <i class="ti ti-list"></i> Perfiles
+                                </a>
                                 <a href="<?= APP_URL ?>/admin/convocatorias/<?= $conv['id'] ?>/postulaciones" class="btn btn-sm btn-info" title="Ver postulaciones">
                                     <i class="ti ti-users"></i>
                                 </a>
-                                <a href="<?= APP_URL ?>/admin/convocatorias/<?= $conv['id'] ?>/edit" class="btn btn-sm btn-primary" title="Editar">
+                                <a href="<?= APP_URL ?>/admin/convocatorias/<?= $conv['id'] ?>/edit" class="btn btn-sm btn-warning" title="Editar">
                                     <i class="ti ti-pencil"></i>
                                 </a>
                                 <button type="button" class="btn btn-sm btn-danger" onclick="confirmarEliminar(<?= $conv['id'] ?>)" title="Eliminar">
@@ -77,7 +85,7 @@ ob_start();
 $customScripts = <<<'HTML'
 <script>
 function confirmarEliminar(id) {
-    if (confirm('¿Estás seguro de eliminar esta convocatoria?')) {
+    if (confirm('¿Estás seguro de eliminar esta convocatoria? Se eliminarán todos sus perfiles y postulaciones.')) {
         window.location.href = '<?= APP_URL ?>/admin/convocatorias/' + id + '/delete';
     }
 }

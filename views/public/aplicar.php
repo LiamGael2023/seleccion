@@ -1,5 +1,5 @@
 <?php
-$pageTitle = 'Postularse - ' . $convocatoria['titulo'];
+$pageTitle = 'Postularse - ' . $perfil['titulo'];
 ob_start();
 ?>
 
@@ -11,16 +11,18 @@ ob_start();
                     <a href="<?= APP_URL ?>/convocatoria/<?= $convocatoria['id'] ?>">← Volver a la convocatoria</a>
                 </div>
                 <h2 class="page-title">Postularme</h2>
-                <div class="text-muted mt-1"><?= htmlspecialchars($convocatoria['titulo']) ?></div>
+                <div class="text-muted mt-1"><strong>Convocatoria:</strong> <?= htmlspecialchars($convocatoria['titulo']) ?></div>
+                <div class="text-muted"><strong>Perfil:</strong> <?= htmlspecialchars($perfil['titulo']) ?></div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="row mt-4">
-    <div class="col-12">
+    <div class="col-lg-8">
         <form action="<?= APP_URL ?>/postular" method="post" enctype="multipart/form-data">
             <input type="hidden" name="convocatoria_id" value="<?= $convocatoria['id'] ?>">
+            <input type="hidden" name="perfil_id" value="<?= $perfil['id'] ?>">
 
             <div class="card">
                 <div class="card-header">
@@ -112,9 +114,22 @@ ob_start();
                                 <label class="form-label">Carrera</label>
                                 <select name="carrera_id" class="form-select">
                                     <option value="">Seleccionar...</option>
-                                    <?php foreach ($carreras as $carrera): ?>
-                                    <option value="<?= $carrera['id'] ?>"><?= htmlspecialchars($carrera['nombre']) ?></option>
-                                    <?php endforeach; ?>
+                                    <?php if (!empty($carreras)): ?>
+                                        <optgroup label="Carreras Requeridas para este Perfil">
+                                        <?php foreach ($carreras as $carrera): ?>
+                                            <option value="<?= $carrera['id'] ?>"><?= htmlspecialchars($carrera['nombre']) ?></option>
+                                        <?php endforeach; ?>
+                                        </optgroup>
+                                    <?php endif; ?>
+                                    <?php if (!empty($todasCarreras)): ?>
+                                        <optgroup label="Otras Carreras">
+                                        <?php foreach ($todasCarreras as $carrera): ?>
+                                            <?php if (empty($carreras) || !in_array($carrera['id'], array_column($carreras, 'id'))): ?>
+                                            <option value="<?= $carrera['id'] ?>"><?= htmlspecialchars($carrera['nombre']) ?></option>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                        </optgroup>
+                                    <?php endif; ?>
                                 </select>
                             </div>
                         </div>
@@ -194,6 +209,28 @@ ob_start();
                 </div>
             </div>
         </form>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Perfil al que te postulas</h3>
+            </div>
+            <div class="card-body">
+                <h4><?= htmlspecialchars($perfil['titulo']) ?></h4>
+                <div class="mb-2">
+                    <strong>Área:</strong> <?= htmlspecialchars($perfil['area_nombre']) ?>
+                </div>
+                <div class="mb-2">
+                    <strong>Vacantes:</strong> <?= $perfil['vacantes'] ?>
+                </div>
+                <?php if ($perfil['experiencia_requerida'] > 0): ?>
+                <div class="mb-2">
+                    <strong>Experiencia:</strong> <?= $perfil['experiencia_requerida'] ?> años
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
     </div>
 </div>
 
