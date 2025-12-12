@@ -100,6 +100,38 @@ ob_start();
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Sexo</label>
+                                <select name="sexo" class="form-select" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="masculino">Masculino</option>
+                                    <option value="femenino">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label required">¿Presenta discapacidad?</label>
+                                <select name="presenta_discapacidad" id="presenta_discapacidad" class="form-select" required>
+                                    <option value="no">No</option>
+                                    <option value="si">Sí</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" id="discapacidad_tipo_row" style="display: none;">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label">Indicar tipo de discapacidad</label>
+                                <input type="text" name="tipo_discapacidad" id="tipo_discapacidad" class="form-control"
+                                    placeholder="Especifique el tipo de discapacidad">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -150,6 +182,17 @@ ob_start();
                     </div>
 
                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label">Carrera Universitaria</label>
+                                <input type="text" name="carrera_universitaria" class="form-control"
+                                    placeholder="Nombre completo de la carrera universitaria">
+                                <small class="form-hint">Especifica el nombre completo de tu carrera universitaria</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-8">
                             <div class="mb-3">
                                 <label class="form-label">Institución</label>
@@ -160,6 +203,48 @@ ob_start();
                             <div class="mb-3">
                                 <label class="form-label">Año de Graduación</label>
                                 <input type="number" name="anio_graduacion" class="form-control" min="1950" max="2099">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Mes Egresado SUNEDU</label>
+                                <select name="mes_egresado_sunedu" class="form-select">
+                                    <option value="">Seleccionar...</option>
+                                    <option value="1">Enero</option>
+                                    <option value="2">Febrero</option>
+                                    <option value="3">Marzo</option>
+                                    <option value="4">Abril</option>
+                                    <option value="5">Mayo</option>
+                                    <option value="6">Junio</option>
+                                    <option value="7">Julio</option>
+                                    <option value="8">Agosto</option>
+                                    <option value="9">Septiembre</option>
+                                    <option value="10">Octubre</option>
+                                    <option value="11">Noviembre</option>
+                                    <option value="12">Diciembre</option>
+                                </select>
+                                <small class="form-hint">Mes de egreso registrado en SUNEDU</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Año Egresado SUNEDU</label>
+                                <input type="number" name="anio_egresado_sunedu" class="form-control" min="1950" max="2099"
+                                    placeholder="YYYY">
+                                <small class="form-hint">Año de egreso registrado en SUNEDU</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label">Fotografía (JPG, PNG - Máx. 2MB)</label>
+                                <input type="file" name="foto" class="form-control" accept="image/jpeg,image/png,image/jpg">
+                                <small class="form-hint">Sube una fotografía reciente tipo carnet</small>
                             </div>
                         </div>
                     </div>
@@ -235,6 +320,25 @@ ob_start();
 </div>
 
 <?php
+$customScripts = <<<HTML
+<script>
+// Mostrar/ocultar campo de tipo de discapacidad
+document.getElementById('presenta_discapacidad').addEventListener('change', function() {
+    var tipoRow = document.getElementById('discapacidad_tipo_row');
+    var tipoInput = document.getElementById('tipo_discapacidad');
+
+    if (this.value === 'si') {
+        tipoRow.style.display = 'block';
+        tipoInput.required = true;
+    } else {
+        tipoRow.style.display = 'none';
+        tipoInput.required = false;
+        tipoInput.value = '';
+    }
+});
+</script>
+HTML;
+
 $content = ob_get_clean();
 require BASE_PATH . '/views/layouts/public.php';
 ?>

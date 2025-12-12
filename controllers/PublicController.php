@@ -72,14 +72,20 @@ class PublicController extends Controller {
             'email' => $_POST['email'],
             'telefono' => $_POST['telefono'] ?? '',
             'fecha_nacimiento' => $_POST['fecha_nacimiento'] ?? null,
+            'sexo' => $_POST['sexo'] ?? null,
+            'presenta_discapacidad' => $_POST['presenta_discapacidad'] ?? 'no',
+            'tipo_discapacidad' => ($_POST['presenta_discapacidad'] === 'si') ? ($_POST['tipo_discapacidad'] ?? null) : null,
             'direccion' => $_POST['direccion'] ?? '',
             'ciudad' => $_POST['ciudad'] ?? '',
             'estado' => $_POST['estado'] ?? '',
             'codigo_postal' => $_POST['codigo_postal'] ?? '',
             'carrera_id' => $_POST['carrera_id'] ?? null,
+            'carrera_universitaria' => $_POST['carrera_universitaria'] ?? null,
             'nivel_estudios' => $_POST['nivel_estudios'] ?? null,
             'institucion' => $_POST['institucion'] ?? '',
             'anio_graduacion' => $_POST['anio_graduacion'] ?? null,
+            'mes_egresado_sunedu' => $_POST['mes_egresado_sunedu'] ?? null,
+            'anio_egresado_sunedu' => $_POST['anio_egresado_sunedu'] ?? null,
             'experiencia_laboral' => $_POST['experiencia_laboral'] ?? '',
             'habilidades' => $_POST['habilidades'] ?? ''
         ];
@@ -91,6 +97,14 @@ class PublicController extends Controller {
             $cvPath = $candidatoModel->uploadCV($_FILES['cv'], $candidatoId);
             if ($cvPath) {
                 $candidatoModel->update($candidatoId, ['cv_path' => $cvPath]);
+            }
+        }
+
+        // Subir foto si existe
+        if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+            $fotoPath = $candidatoModel->uploadFoto($_FILES['foto'], $candidatoId);
+            if ($fotoPath) {
+                $candidatoModel->update($candidatoId, ['foto_path' => $fotoPath]);
             }
         }
 
