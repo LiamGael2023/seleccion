@@ -6,7 +6,12 @@ class Convocatoria extends Model {
 
     public function getAllWithDetails() {
         $sql = "SELECT c.*, u.nombre as usuario_nombre,
-                (SELECT COUNT(*) FROM perfiles_convocatoria WHERE convocatoria_id = c.id) as total_perfiles
+                (SELECT COUNT(*) FROM perfiles_convocatoria WHERE convocatoria_id = c.id AND activo = 1) as total_perfiles,
+                (SELECT SUM(vacantes) FROM perfiles_convocatoria WHERE convocatoria_id = c.id AND activo = 1) as total_vacantes,
+                (SELECT GROUP_CONCAT(DISTINCT a.nombre SEPARATOR ', ')
+                 FROM perfiles_convocatoria pc
+                 LEFT JOIN areas a ON pc.area_id = a.id
+                 WHERE pc.convocatoria_id = c.id AND pc.activo = 1) as areas_nombres
                 FROM {$this->table} c
                 LEFT JOIN usuarios u ON c.usuario_id = u.id
                 ORDER BY c.created_at DESC";

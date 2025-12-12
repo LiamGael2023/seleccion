@@ -74,8 +74,8 @@ ob_start();
                             <?php foreach (array_slice($convocatorias, 0, 10) as $conv): ?>
                             <tr>
                                 <td><?= htmlspecialchars($conv['titulo']) ?></td>
-                                <td class="text-muted"><?= htmlspecialchars($conv['area_nombre']) ?></td>
-                                <td><?= $conv['vacantes'] ?></td>
+                                <td class="text-muted"><?= htmlspecialchars($conv['areas_nombres'] ?? 'Sin áreas asignadas') ?></td>
+                                <td><?= $conv['total_vacantes'] ?? 0 ?></td>
                                 <td><?= date('d/m/Y', strtotime($conv['fecha_cierre'])) ?></td>
                                 <td>
                                     <?php
