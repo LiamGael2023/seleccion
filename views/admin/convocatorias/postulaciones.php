@@ -9,7 +9,7 @@ ob_start();
         <div class="card">
             <div class="card-body">
                 <h3><?= htmlspecialchars($convocatoria['titulo']) ?></h3>
-                <div class="text-muted">Área: <?= htmlspecialchars($convocatoria['area_nombre']) ?></div>
+                <div class="text-muted">Áreas: <?= htmlspecialchars($convocatoria['areas_nombres'] ?? 'Sin áreas asignadas') ?></div>
                 <div class="text-muted">Fecha de cierre: <?= date('d/m/Y', strtotime($convocatoria['fecha_cierre'])) ?></div>
             </div>
         </div>
