@@ -128,6 +128,7 @@ ob_start();
 </div>
 
 <?php
+$appUrl = APP_URL;
 $customScripts = <<<HTML
 <script>
 let datosReniecValidados = false;
@@ -152,7 +153,7 @@ document.getElementById('btnBuscarDni').addEventListener('click', async function
 
     try {
         // Llamar a nuestro proxy PHP (evita problemas de CORS)
-        const response = await fetch('<?= APP_URL ?>/api/consultar-dni?dni=' + dni);
+        const response = await fetch('$appUrl/api/consultar-dni?dni=' + dni);
 
         const result = await response.json();
 
