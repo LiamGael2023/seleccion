@@ -146,7 +146,7 @@ ob_start();
                 <?php if ($convocatoria['salario_min'] && $convocatoria['salario_max']): ?>
                 <div class="mb-3">
                     <div class="text-muted small">Rango Salarial</div>
-                    <div><strong>$<?= number_format($convocatoria['salario_min'], 2) ?> - $<?= number_format($convocatoria['salario_max'], 2) ?></strong></div>
+                    <div><strong>S/ <?= number_format($convocatoria['salario_min'], 2) ?> - S/ <?= number_format($convocatoria['salario_max'], 2) ?></strong></div>
                 </div>
                 <?php endif; ?>
 
