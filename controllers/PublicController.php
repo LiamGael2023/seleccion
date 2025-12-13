@@ -31,7 +31,17 @@ class PublicController extends Controller {
             $perfil['carreras'] = $perfilModel->getCarreras($perfil['id']);
         }
 
-        $this->view('public/detalle', compact('convocatoria', 'perfiles'));
+        // Verificar si el usuario ya se postuló a esta convocatoria
+        $postulacionExistente = false;
+        if (isset($_SESSION['postulante_id'])) {
+            $postulacionModel = new Postulacion();
+            $postulacionExistente = $postulacionModel->tienePostulacionEnConvocatoria(
+                $id,
+                $_SESSION['postulante_id']
+            );
+        }
+
+        $this->view('public/detalle', compact('convocatoria', 'perfiles', 'postulacionExistente'));
     }
 
     public function aplicar($perfilId) {
@@ -54,6 +64,19 @@ class PublicController extends Controller {
 
         if (!$convocatoria || $convocatoria['estado'] !== 'publicada') {
             $this->redirect('/');
+        }
+
+        // Verificar si ya se postuló a algún perfil de esta convocatoria
+        $postulacionModel = new Postulacion();
+        $postulacionExistente = $postulacionModel->tienePostulacionEnConvocatoria(
+            $perfil['convocatoria_id'],
+            $_SESSION['postulante_id']
+        );
+
+        if ($postulacionExistente) {
+            $_SESSION['error'] = 'Ya te postulaste al perfil "' . $postulacionExistente['perfil_titulo'] .
+                                 '" de esta convocatoria. Solo puedes postularte a un perfil por convocatoria.';
+            $this->redirect('/convocatoria/' . $perfil['convocatoria_id']);
         }
 
         $carreras = $perfilModel->getCarreras($perfilId);
@@ -84,6 +107,18 @@ class PublicController extends Controller {
 
         $candidatoModel = new Candidato();
         $postulacionModel = new Postulacion();
+
+        // Verificar si ya se postuló a algún perfil de esta convocatoria
+        $postulacionExistente = $postulacionModel->tienePostulacionEnConvocatoria(
+            $_POST['convocatoria_id'],
+            $_SESSION['postulante_id']
+        );
+
+        if ($postulacionExistente) {
+            $_SESSION['error'] = 'Ya te postulaste al perfil "' . $postulacionExistente['perfil_titulo'] .
+                                 '" de esta convocatoria. Solo puedes postularte a un perfil por convocatoria.';
+            $this->redirect('/convocatoria/' . $_POST['convocatoria_id']);
+        }
 
         // Crear candidato vinculado al usuario postulante
         // Los datos de nombre, apellido y email se toman de la sesión

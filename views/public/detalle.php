@@ -21,6 +21,23 @@ ob_start();
 
 <div class="row mt-4">
     <div class="col-lg-8">
+        <?php if ($postulacionExistente): ?>
+        <div class="alert alert-info mb-4">
+            <div class="d-flex">
+                <div class="me-2">
+                    <i class="ti ti-info-circle icon"></i>
+                </div>
+                <div>
+                    <h4 class="alert-title">Ya te postulaste a esta convocatoria</h4>
+                    <div class="text-muted">
+                        Te postulaste al perfil <strong>"<?= htmlspecialchars($postulacionExistente['perfil_titulo']) ?>"</strong>.
+                        Solo puedes postularte a un perfil por convocatoria.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
         <h3 class="mb-3">Perfiles Disponibles (<?= count($perfiles) ?>)</h3>
 
         <?php if (empty($perfiles)): ?>
@@ -94,9 +111,21 @@ ob_start();
                 </div>
             </div>
             <div class="card-footer text-end">
-                <a href="<?= APP_URL ?>/perfil/<?= $perfil['id'] ?>/aplicar" class="btn btn-primary">
-                    <i class="ti ti-send icon"></i> Postularme a este Perfil
-                </a>
+                <?php if ($postulacionExistente): ?>
+                    <?php if ($postulacionExistente['perfil_id'] == $perfil['id']): ?>
+                        <button class="btn btn-success" disabled>
+                            <i class="ti ti-check icon"></i> Ya te postulaste a este perfil
+                        </button>
+                    <?php else: ?>
+                        <button class="btn btn-secondary" disabled>
+                            <i class="ti ti-lock icon"></i> Ya te postulaste a otro perfil
+                        </button>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <a href="<?= APP_URL ?>/perfil/<?= $perfil['id'] ?>/aplicar" class="btn btn-primary">
+                        <i class="ti ti-send icon"></i> Postularme a este Perfil
+                    </a>
+                <?php endif; ?>
             </div>
         </div>
         <?php endforeach; ?>
