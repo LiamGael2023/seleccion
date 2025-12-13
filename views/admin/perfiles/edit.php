@@ -45,22 +45,37 @@ ob_start();
 
                     <div class="mb-3">
                         <label class="form-label">Carreras Aceptadas</label>
-                        <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column" style="max-height: 300px; overflow-y: auto;">
-                            <?php foreach ($carreras as $carrera): ?>
-                            <label class="form-selectgroup-item flex-fill">
-                                <input type="checkbox" name="carreras[]" value="<?= $carrera['id'] ?>"
-                                    class="form-selectgroup-input"
-                                    <?= in_array($carrera['id'], $carrerasIds) ? 'checked' : '' ?>>
-                                <div class="form-selectgroup-label d-flex align-items-center p-2">
-                                    <div class="me-2">
-                                        <span class="form-selectgroup-check"></span>
+                        <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column" style="max-height: 400px; overflow-y: auto;">
+                            <?php
+                            $categoriaActual = null;
+                            foreach ($carreras as $carrera):
+                                if ($categoriaActual !== ($carrera['categoria_nombre'] ?? 'Sin Categoría')):
+                                    if ($categoriaActual !== null): ?>
                                     </div>
-                                    <div>
-                                        <small><?= htmlspecialchars($carrera['nombre']) ?></small>
+                                    <?php endif;
+                                    $categoriaActual = $carrera['categoria_nombre'] ?? 'Sin Categoría'; ?>
+                                    <div class="mb-2">
+                                        <strong class="text-muted" style="font-size: 0.85rem;"><?= htmlspecialchars($categoriaActual) ?></strong>
                                     </div>
-                                </div>
-                            </label>
+                                    <div class="mb-3">
+                                <?php endif; ?>
+                                <label class="form-selectgroup-item flex-fill">
+                                    <input type="checkbox" name="carreras[]" value="<?= $carrera['id'] ?>"
+                                        class="form-selectgroup-input"
+                                        <?= in_array($carrera['id'], $carrerasIds) ? 'checked' : '' ?>>
+                                    <div class="form-selectgroup-label d-flex align-items-center p-2">
+                                        <div class="me-2">
+                                            <span class="form-selectgroup-check"></span>
+                                        </div>
+                                        <div>
+                                            <small><?= htmlspecialchars($carrera['nombre']) ?></small>
+                                        </div>
+                                    </div>
+                                </label>
                             <?php endforeach; ?>
+                            <?php if ($categoriaActual !== null): ?>
+                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
 

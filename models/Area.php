@@ -10,10 +10,11 @@ class Area extends Model {
 
     public function getAllWithHierarchy() {
         $sql = "SELECT a.*,
-                ap.nombre as area_padre_nombre
+                ap.nombre as area_padre_nombre,
+                COALESCE(ap.nombre, a.nombre) as orden_grupo
                 FROM {$this->table} a
                 LEFT JOIN {$this->table} ap ON a.area_padre_id = ap.id
-                ORDER BY ap.nombre ASC, a.nombre ASC";
+                ORDER BY orden_grupo ASC, a.area_padre_id IS NULL DESC, a.nombre ASC";
         return $this->query($sql);
     }
 

@@ -5,7 +5,15 @@ class Carrera extends Model {
     protected $table = 'carreras';
 
     public function getActive() {
-        return $this->where('activo', 1);
+        $sql = "SELECT c.*,
+                cat.nombre as categoria_nombre,
+                n.nombre as nivel_nombre
+                FROM {$this->table} c
+                LEFT JOIN categorias_carreras cat ON c.categoria_id = cat.id
+                LEFT JOIN niveles_estudio n ON c.nivel_id = n.id
+                WHERE c.activo = 1
+                ORDER BY cat.orden ASC, cat.nombre ASC, c.nombre ASC";
+        return $this->query($sql);
     }
 
     public function getByNivel($nivelId) {
