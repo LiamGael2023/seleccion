@@ -10,9 +10,10 @@ class AreaController extends Controller {
 
     public function index() {
         $areaModel = new Area();
-        $areas = $areaModel->all('nombre', 'ASC');
+        $areas = $areaModel->getAllWithHierarchy();
+        $areasPadre = $areaModel->getAreasPadre();
 
-        $this->view('admin/areas/index', compact('areas'));
+        $this->view('admin/areas/index', compact('areas', 'areasPadre'));
     }
 
     public function store() {
@@ -22,7 +23,8 @@ class AreaController extends Controller {
 
         $data = [
             'nombre' => $_POST['nombre'],
-            'descripcion' => $_POST['descripcion'] ?? ''
+            'descripcion' => $_POST['descripcion'] ?? '',
+            'area_padre_id' => !empty($_POST['area_padre_id']) ? $_POST['area_padre_id'] : null
         ];
 
         $areaModel = new Area();
@@ -39,7 +41,8 @@ class AreaController extends Controller {
 
         $data = [
             'nombre' => $_POST['nombre'],
-            'descripcion' => $_POST['descripcion'] ?? ''
+            'descripcion' => $_POST['descripcion'] ?? '',
+            'area_padre_id' => !empty($_POST['area_padre_id']) ? $_POST['area_padre_id'] : null
         ];
 
         $areaModel = new Area();
