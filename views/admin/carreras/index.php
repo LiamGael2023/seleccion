@@ -38,7 +38,13 @@ ob_start();
                                 <span class="text-muted">Sin categoría</span>
                             <?php endif; ?>
                         </td>
-                        <td><?= ucfirst($carrera['nivel']) ?></td>
+                        <td>
+                            <?php if (!empty($carrera['nivel_nombre'])): ?>
+                                <?= htmlspecialchars($carrera['nivel_nombre']) ?>
+                            <?php else: ?>
+                                <span class="text-muted">Sin nivel</span>
+                            <?php endif; ?>
+                        </td>
                         <td>
                             <span class="badge <?= $carrera['activo'] ? 'bg-success' : 'bg-secondary' ?>">
                                 <?= $carrera['activo'] ? 'Activa' : 'Inactiva' ?>
@@ -87,13 +93,12 @@ ob_start();
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label required">Nivel</label>
-                        <select name="nivel" class="form-select" required>
-                            <option value="tecnico">Técnico</option>
-                            <option value="licenciatura">Licenciatura</option>
-                            <option value="ingenieria">Ingeniería</option>
-                            <option value="maestria">Maestría</option>
-                            <option value="doctorado">Doctorado</option>
+                        <label class="form-label">Nivel de Estudio</label>
+                        <select name="nivel_id" class="form-select">
+                            <option value="">Sin nivel</option>
+                            <?php foreach ($niveles as $nivel): ?>
+                            <option value="<?= $nivel['id'] ?>"><?= htmlspecialchars($nivel['nombre']) ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -130,13 +135,12 @@ ob_start();
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label required">Nivel</label>
-                        <select name="nivel" id="edit_nivel" class="form-select" required>
-                            <option value="tecnico">Técnico</option>
-                            <option value="licenciatura">Licenciatura</option>
-                            <option value="ingenieria">Ingeniería</option>
-                            <option value="maestria">Maestría</option>
-                            <option value="doctorado">Doctorado</option>
+                        <label class="form-label">Nivel de Estudio</label>
+                        <select name="nivel_id" id="edit_nivel_id" class="form-select">
+                            <option value="">Sin nivel</option>
+                            <?php foreach ($niveles as $nivel): ?>
+                            <option value="<?= $nivel['id'] ?>"><?= htmlspecialchars($nivel['nombre']) ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -155,7 +159,7 @@ $customScripts = <<<HTML
 <script>
 function editarCarrera(carrera) {
     document.getElementById('edit_nombre').value = carrera.nombre;
-    document.getElementById('edit_nivel').value = carrera.nivel;
+    document.getElementById('edit_nivel_id').value = carrera.nivel_id || '';
     document.getElementById('edit_categoria_id').value = carrera.categoria_id || '';
     document.getElementById('formEditarCarrera').action = '$appUrl/admin/carreras/' + carrera.id + '/update';
 

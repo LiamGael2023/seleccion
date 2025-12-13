@@ -8,14 +8,17 @@ class Carrera extends Model {
         return $this->where('activo', 1);
     }
 
-    public function getByNivel($nivel) {
-        return $this->where('nivel', $nivel);
+    public function getByNivel($nivelId) {
+        return $this->where('nivel_id', $nivelId);
     }
 
     public function getAllWithCategoria() {
-        $sql = "SELECT c.*, cat.nombre as categoria_nombre
+        $sql = "SELECT c.*,
+                cat.nombre as categoria_nombre,
+                n.nombre as nivel_nombre
                 FROM {$this->table} c
                 LEFT JOIN categorias_carreras cat ON c.categoria_id = cat.id
+                LEFT JOIN niveles_estudio n ON c.nivel_id = n.id
                 ORDER BY cat.orden ASC, cat.nombre ASC, c.nombre ASC";
         return $this->query($sql);
     }

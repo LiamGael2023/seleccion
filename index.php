@@ -65,6 +65,12 @@ $router->post('/admin/categorias-carreras/store', 'CategoriaCarreraController@st
 $router->post('/admin/categorias-carreras/{id}/update', 'CategoriaCarreraController@update');
 $router->get('/admin/categorias-carreras/{id}/delete', 'CategoriaCarreraController@delete');
 
+// Rutas de administración - Niveles de Estudio
+$router->get('/admin/niveles-estudio', 'NivelEstudioController@index');
+$router->post('/admin/niveles-estudio/store', 'NivelEstudioController@store');
+$router->post('/admin/niveles-estudio/{id}/update', 'NivelEstudioController@update');
+$router->get('/admin/niveles-estudio/{id}/delete', 'NivelEstudioController@delete');
+
 // Rutas de administración - Perfiles
 $router->get('/admin/convocatorias/{id}/perfiles', 'PerfilController@list');
 $router->get('/admin/convocatorias/{id}/perfiles/create', 'PerfilController@create');

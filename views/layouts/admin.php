@@ -120,6 +120,9 @@
                                     <a class="dropdown-item" href="<?= APP_URL ?>/admin/categorias-carreras">
                                         <i class="ti ti-folders icon"></i> Categorías
                                     </a>
+                                    <a class="dropdown-item" href="<?= APP_URL ?>/admin/niveles-estudio">
+                                        <i class="ti ti-certificate icon"></i> Niveles de Estudio
+                                    </a>
                                 </div>
                             </li>
                         </ul>
