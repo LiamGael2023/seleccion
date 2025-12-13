@@ -15,6 +15,7 @@ ob_start();
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
+                        <th>Categoría</th>
                         <th>Nivel</th>
                         <th>Estado</th>
                         <th class="w-1">Acciones</th>
@@ -23,13 +24,20 @@ ob_start();
                 <tbody>
                     <?php if (empty($carreras)): ?>
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4">No hay carreras registradas</td>
+                        <td colspan="6" class="text-center text-muted py-4">No hay carreras registradas</td>
                     </tr>
                     <?php else: ?>
                     <?php foreach ($carreras as $carrera): ?>
                     <tr>
                         <td><?= $carrera['id'] ?></td>
                         <td><?= htmlspecialchars($carrera['nombre']) ?></td>
+                        <td>
+                            <?php if (!empty($carrera['categoria_nombre'])): ?>
+                                <span class="badge bg-blue-lt"><?= htmlspecialchars($carrera['categoria_nombre']) ?></span>
+                            <?php else: ?>
+                                <span class="text-muted">Sin categoría</span>
+                            <?php endif; ?>
+                        </td>
                         <td><?= ucfirst($carrera['nivel']) ?></td>
                         <td>
                             <span class="badge <?= $carrera['activo'] ? 'bg-success' : 'bg-secondary' ?>">
@@ -38,7 +46,7 @@ ob_start();
                         </td>
                         <td>
                             <button type="button" class="btn btn-sm btn-primary"
-                                onclick="editarCarrera(<?= $carrera['id'] ?>, '<?= htmlspecialchars($carrera['nombre'], ENT_QUOTES) ?>', '<?= $carrera['nivel'] ?>')">
+                                onclick="editarCarrera(<?= htmlspecialchars(json_encode($carrera), ENT_QUOTES) ?>)">
                                 <i class="ti ti-pencil"></i>
                             </button>
                             <button type="button" class="btn btn-sm btn-danger"
@@ -68,6 +76,15 @@ ob_start();
                     <div class="mb-3">
                         <label class="form-label required">Nombre</label>
                         <input type="text" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categoría</label>
+                        <select name="categoria_id" class="form-select">
+                            <option value="">Sin categoría</option>
+                            <?php foreach ($categorias as $cat): ?>
+                            <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['nombre']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label class="form-label required">Nivel</label>
@@ -104,6 +121,15 @@ ob_start();
                         <input type="text" name="nombre" id="edit_nombre" class="form-control" required>
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Categoría</label>
+                        <select name="categoria_id" id="edit_categoria_id" class="form-select">
+                            <option value="">Sin categoría</option>
+                            <?php foreach ($categorias as $cat): ?>
+                            <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['nombre']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label required">Nivel</label>
                         <select name="nivel" id="edit_nivel" class="form-select" required>
                             <option value="tecnico">Técnico</option>
@@ -127,10 +153,11 @@ ob_start();
 $appUrl = APP_URL;
 $customScripts = <<<HTML
 <script>
-function editarCarrera(id, nombre, nivel) {
-    document.getElementById('edit_nombre').value = nombre;
-    document.getElementById('edit_nivel').value = nivel;
-    document.getElementById('formEditarCarrera').action = '$appUrl/admin/carreras/' + id + '/update';
+function editarCarrera(carrera) {
+    document.getElementById('edit_nombre').value = carrera.nombre;
+    document.getElementById('edit_nivel').value = carrera.nivel;
+    document.getElementById('edit_categoria_id').value = carrera.categoria_id || '';
+    document.getElementById('formEditarCarrera').action = '$appUrl/admin/carreras/' + carrera.id + '/update';
 
     var modal = new bootstrap.Modal(document.getElementById('modalEditarCarrera'));
     modal.show();

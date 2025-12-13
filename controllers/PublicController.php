@@ -81,7 +81,7 @@ class PublicController extends Controller {
 
         $carreras = $perfilModel->getCarreras($perfilId);
         $carreraModel = new Carrera();
-        $todasCarreras = $carreraModel->getActive();
+        $carrerasAgrupadas = $carreraModel->getActiveGroupedByCategoria();
 
         // Pasar datos del postulante al formulario
         $postulante = [
@@ -91,7 +91,7 @@ class PublicController extends Controller {
             'email' => $_SESSION['postulante_email'] ?? ''
         ];
 
-        $this->view('public/aplicar', compact('convocatoria', 'perfil', 'carreras', 'todasCarreras', 'postulante'));
+        $this->view('public/aplicar', compact('convocatoria', 'perfil', 'carreras', 'carrerasAgrupadas', 'postulante'));
     }
 
     public function postular() {

@@ -168,14 +168,24 @@ ob_start();
                                         <?php endforeach; ?>
                                         </optgroup>
                                     <?php endif; ?>
-                                    <?php if (!empty($todasCarreras)): ?>
-                                        <optgroup label="Otras Carreras">
-                                        <?php foreach ($todasCarreras as $carrera): ?>
-                                            <?php if (empty($carreras) || !in_array($carrera['id'], array_column($carreras, 'id'))): ?>
+
+                                    <?php if (!empty($carrerasAgrupadas)): ?>
+                                        <?php
+                                        $carrerasRequeridasIds = array_column($carreras ?? [], 'id');
+                                        foreach ($carrerasAgrupadas as $grupo):
+                                            // Filtrar carreras que no estén en las requeridas
+                                            $carrerasGrupo = array_filter($grupo['carreras'], function($c) use ($carrerasRequeridasIds) {
+                                                return !in_array($c['id'], $carrerasRequeridasIds);
+                                            });
+
+                                            if (empty($carrerasGrupo)) continue;
+                                        ?>
+                                        <optgroup label="<?= htmlspecialchars($grupo['categoria_nombre']) ?>">
+                                            <?php foreach ($carrerasGrupo as $carrera): ?>
                                             <option value="<?= $carrera['id'] ?>"><?= htmlspecialchars($carrera['nombre']) ?></option>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
+                                            <?php endforeach; ?>
                                         </optgroup>
+                                        <?php endforeach; ?>
                                     <?php endif; ?>
                                 </select>
                             </div>

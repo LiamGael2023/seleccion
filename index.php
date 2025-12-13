@@ -59,6 +59,12 @@ $router->post('/admin/carreras/store', 'CarreraController@store');
 $router->post('/admin/carreras/{id}/update', 'CarreraController@update');
 $router->get('/admin/carreras/{id}/delete', 'CarreraController@delete');
 
+// Rutas de administración - Categorías de Carreras
+$router->get('/admin/categorias-carreras', 'CategoriaCarreraController@index');
+$router->post('/admin/categorias-carreras/store', 'CategoriaCarreraController@store');
+$router->post('/admin/categorias-carreras/{id}/update', 'CategoriaCarreraController@update');
+$router->get('/admin/categorias-carreras/{id}/delete', 'CategoriaCarreraController@delete');
+
 // Rutas de administración - Perfiles
 $router->get('/admin/convocatorias/{id}/perfiles', 'PerfilController@list');
 $router->get('/admin/convocatorias/{id}/perfiles/create', 'PerfilController@create');

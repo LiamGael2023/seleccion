@@ -106,13 +106,21 @@
                                     <span class="nav-link-title">Áreas</span>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="<?= APP_URL ?>/admin/carreras">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#navbar-carreras" data-bs-toggle="dropdown" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
                                         <i class="ti ti-school"></i>
                                     </span>
                                     <span class="nav-link-title">Carreras</span>
                                 </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="<?= APP_URL ?>/admin/carreras">
+                                        <i class="ti ti-list icon"></i> Gestión de Carreras
+                                    </a>
+                                    <a class="dropdown-item" href="<?= APP_URL ?>/admin/categorias-carreras">
+                                        <i class="ti ti-folders icon"></i> Categorías
+                                    </a>
+                                </div>
                             </li>
                         </ul>
                     </div>
