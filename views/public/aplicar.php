@@ -10,21 +10,21 @@ ob_start();
             <div class="col">
                 <div class="page-pretitle mb-2">
                     <a href="<?= APP_URL ?>/convocatoria/<?= $convocatoria['id'] ?>" class="text-muted">
-                        <i class="ti ti-arrow-left icon me-1"></i>
+                        <i class="fas fa-arrow-left icon me-1"></i>
                         Volver a la convocatoria
                     </a>
                 </div>
                 <h2 class="page-title mb-2">
-                    <i class="ti ti-file-text icon me-2"></i>
+                    <i class="fas fa-file-alt icon me-2"></i>
                     Formulario de Postulación
                 </h2>
                 <div class="mt-2">
                     <span class="badge bg-blue-lt me-2">
-                        <i class="ti ti-briefcase icon me-1"></i>
+                        <i class="fas fa-briefcase icon me-1"></i>
                         <?= htmlspecialchars($convocatoria['titulo']) ?>
                     </span>
                     <span class="badge bg-cyan-lt">
-                        <i class="ti ti-target icon me-1"></i>
+                        <i class="fas fa-bullseye icon me-1"></i>
                         <?= htmlspecialchars($perfil['titulo']) ?>
                     </span>
                 </div>
@@ -44,7 +44,7 @@ ob_start();
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            <i class="ti ti-user icon me-2"></i>
+                            <i class="fas fa-user icon me-2"></i>
                             1. Información Personal
                         </h3>
                     </div>
@@ -129,7 +129,7 @@ ob_start();
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            <i class="ti ti-school icon me-2"></i>
+                            <i class="fas fa-graduation-cap icon me-2"></i>
                             2. Formación Académica
                         </h3>
                     </div>
@@ -198,7 +198,7 @@ ob_start();
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            <i class="ti ti-briefcase icon me-2"></i>
+                            <i class="fas fa-briefcase icon me-2"></i>
                             3. Experiencia y Habilidades
                         </h3>
                     </div>
@@ -229,7 +229,7 @@ ob_start();
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            <i class="ti ti-check icon me-2"></i>
+                            <i class="fas fa-check icon me-2"></i>
                             4. Confirmación
                         </h3>
                     </div>
@@ -244,11 +244,11 @@ ob_start();
                     </div>
                     <div class="card-footer d-flex justify-content-between">
                         <a href="<?= APP_URL ?>/convocatoria/<?= $convocatoria['id'] ?>" class="btn btn-link">
-                            <i class="ti ti-arrow-left icon me-1"></i>
+                            <i class="fas fa-arrow-left icon me-1"></i>
                             Cancelar
                         </a>
                         <button type="submit" class="btn btn-success btn-lg">
-                            <i class="ti ti-send icon me-1"></i>
+                            <i class="fas fa-paper-plane icon me-1"></i>
                             Enviar Postulación
                         </button>
                     </div>
@@ -262,7 +262,7 @@ ob_start();
         <div class="card perfil-card fade-in-delay-2 sticky-top" style="top: 20px;">
             <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                 <h3 class="card-title text-white">
-                    <i class="ti ti-target icon me-2"></i>
+                    <i class="fas fa-bullseye icon me-2"></i>
                     Perfil Seleccionado
                 </h3>
             </div>
@@ -271,7 +271,7 @@ ob_start();
 
                 <div class="mb-3">
                     <div class="d-flex align-items-center mb-2">
-                        <i class="ti ti-building icon me-2 text-muted"></i>
+                        <i class="fas fa-building icon me-2 text-muted"></i>
                         <div>
                             <small class="text-muted d-block">Área</small>
                             <strong><?= htmlspecialchars($perfil['area_nombre']) ?></strong>
@@ -281,7 +281,7 @@ ob_start();
 
                 <div class="mb-3">
                     <div class="d-flex align-items-center mb-2">
-                        <i class="ti ti-users icon me-2 text-muted"></i>
+                        <i class="fas fa-users icon me-2 text-muted"></i>
                         <div>
                             <small class="text-muted d-block">Vacantes Disponibles</small>
                             <strong><?= $perfil['vacantes'] ?></strong>
@@ -292,7 +292,7 @@ ob_start();
                 <?php if ($perfil['experiencia_requerida'] > 0): ?>
                 <div class="mb-3">
                     <div class="d-flex align-items-center mb-2">
-                        <i class="ti ti-clock icon me-2 text-muted"></i>
+                        <i class="fas fa-clock icon me-2 text-muted"></i>
                         <div>
                             <small class="text-muted d-block">Experiencia Requerida</small>
                             <strong><?= $perfil['experiencia_requerida'] ?> años</strong>
@@ -302,7 +302,7 @@ ob_start();
                 <?php endif; ?>
 
                 <div class="alert alert-info mt-4" style="background: linear-gradient(135deg, #3498db10 0%, #2980b910 100%); border-left: 4px solid #3498db;">
-                    <i class="ti ti-info-circle icon me-2"></i>
+                    <i class="fas fa-info-circle icon me-2"></i>
                     <strong>Tip:</strong> Asegúrate de completar todos los campos para aumentar tus posibilidades.
                 </div>
             </div>

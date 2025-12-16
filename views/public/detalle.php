@@ -10,12 +10,12 @@ ob_start();
             <div class="col">
                 <div class="page-pretitle mb-2">
                     <a href="<?= APP_URL ?>/" class="text-muted">
-                        <i class="ti ti-arrow-left icon me-1"></i>
+                        <i class="fas fa-arrow-left icon me-1"></i>
                         Volver a convocatorias
                     </a>
                 </div>
                 <h2 class="page-title mb-2">
-                    <i class="ti ti-briefcase icon me-2"></i>
+                    <i class="fas fa-briefcase icon me-2"></i>
                     <?= htmlspecialchars($convocatoria['titulo']) ?>
                 </h2>
                 <?php if (!empty($convocatoria['descripcion'])): ?>
@@ -30,7 +30,7 @@ ob_start();
     <div class="col-lg-8">
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h3 class="mb-0">
-                <i class="ti ti-users icon me-2"></i>
+                <i class="fas fa-users icon me-2"></i>
                 Perfiles Disponibles
             </h3>
             <span class="badge bg-blue-lt" style="font-size: 1rem; padding: 0.5rem 1rem;">
@@ -43,7 +43,7 @@ ob_start();
             <div class="card-body text-center py-5">
                 <div class="empty">
                     <div class="empty-icon">
-                        <i class="ti ti-briefcase icon" style="font-size: 3rem;"></i>
+                        <i class="fas fa-briefcase icon" style="font-size: 3rem;"></i>
                     </div>
                     <p class="empty-title">No hay perfiles disponibles</p>
                     <p class="empty-subtitle text-muted">
@@ -60,13 +60,13 @@ ob_start();
                 <div class="row align-items-center">
                     <div class="col">
                         <h3 class="card-title mb-0">
-                            <i class="ti ti-target icon me-2"></i>
+                            <i class="fas fa-bullseye icon me-2"></i>
                             <?= htmlspecialchars($perfil['titulo']) ?>
                         </h3>
                     </div>
                     <div class="col-auto">
                         <span class="badge bg-blue" style="font-size: 0.9rem; padding: 0.5rem 0.75rem;">
-                            <i class="ti ti-users icon me-1"></i>
+                            <i class="fas fa-users icon me-1"></i>
                             <?= $perfil['vacantes'] ?> <?= $perfil['vacantes'] == 1 ? 'vacante' : 'vacantes' ?>
                         </span>
                     </div>
@@ -77,11 +77,11 @@ ob_start();
                     <div class="col-md-12">
                         <!-- Información básica -->
                         <div class="d-flex align-items-center mb-3">
-                            <i class="ti ti-building icon me-2 text-muted"></i>
+                            <i class="fas fa-building icon me-2 text-muted"></i>
                             <span><strong>Área:</strong> <?= htmlspecialchars($perfil['area_nombre']) ?></span>
                             <?php if ($perfil['experiencia_requerida'] > 0): ?>
                             <span class="mx-2">•</span>
-                            <i class="ti ti-clock icon me-2 text-muted"></i>
+                            <i class="fas fa-clock icon me-2 text-muted"></i>
                             <span><strong>Experiencia:</strong> <?= $perfil['experiencia_requerida'] ?> años</span>
                             <?php endif; ?>
                         </div>
@@ -89,7 +89,7 @@ ob_start();
                         <!-- Descripción -->
                         <div class="mb-3">
                             <h5 class="mb-2">
-                                <i class="ti ti-file-text icon me-1"></i>
+                                <i class="fas fa-file-alt icon me-1"></i>
                                 Descripción
                             </h5>
                             <div class="text-muted">
@@ -100,7 +100,7 @@ ob_start();
                         <!-- Requisitos -->
                         <div class="mb-3">
                             <h5 class="mb-2">
-                                <i class="ti ti-list-check icon me-1"></i>
+                                <i class="fas fa-tasks icon me-1"></i>
                                 Requisitos
                             </h5>
                             <div class="text-muted">
@@ -112,7 +112,7 @@ ob_start();
                         <?php if (!empty($perfil['responsabilidades'])): ?>
                         <div class="mb-3">
                             <h5 class="mb-2">
-                                <i class="ti ti-clipboard-list icon me-1"></i>
+                                <i class="fas fa-clipboard-list icon me-1"></i>
                                 Responsabilidades
                             </h5>
                             <div class="text-muted">
@@ -125,7 +125,7 @@ ob_start();
                         <?php if (!empty($perfil['carreras'])): ?>
                         <div class="mb-0">
                             <h5 class="mb-2">
-                                <i class="ti ti-school icon me-1"></i>
+                                <i class="fas fa-graduation-cap icon me-1"></i>
                                 Carreras Aceptadas
                             </h5>
                             <div class="d-flex flex-wrap gap-2">
@@ -142,7 +142,7 @@ ob_start();
             </div>
             <div class="card-footer d-flex justify-content-end">
                 <a href="<?= APP_URL ?>/perfil/<?= $perfil['id'] ?>/aplicar" class="btn btn-primary btn-lg">
-                    <i class="ti ti-send icon me-1"></i>
+                    <i class="fas fa-paper-plane icon me-1"></i>
                     Postularme a este Perfil
                 </a>
             </div>
@@ -157,7 +157,7 @@ ob_start();
         <div class="card fade-in-delay-1 sticky-top" style="top: 20px;">
             <div class="card-header" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
                 <h3 class="card-title text-white">
-                    <i class="ti ti-info-circle icon me-2"></i>
+                    <i class="fas fa-info-circle icon me-2"></i>
                     Información General
                 </h3>
             </div>
@@ -165,7 +165,7 @@ ob_start();
                 <!-- Tipo de Contrato -->
                 <div class="mb-3 pb-3 border-bottom">
                     <div class="d-flex align-items-center">
-                        <i class="ti ti-file-text icon me-2 text-muted"></i>
+                        <i class="fas fa-file-alt icon me-2 text-muted"></i>
                         <div>
                             <small class="text-muted d-block">Tipo de Contrato</small>
                             <strong><?= ucfirst(str_replace('_', ' ', $convocatoria['tipo_contrato'])) ?></strong>
@@ -177,7 +177,7 @@ ob_start();
                 <?php if ($convocatoria['salario_min'] && $convocatoria['salario_max']): ?>
                 <div class="mb-3 pb-3 border-bottom">
                     <div class="d-flex align-items-center">
-                        <i class="ti ti-currency-dollar icon me-2 text-muted"></i>
+                        <i class="fas fa-dollar-sign icon me-2 text-muted"></i>
                         <div>
                             <small class="text-muted d-block">Rango Salarial</small>
                             <strong>$<?= number_format($convocatoria['salario_min'], 2) ?> - $<?= number_format($convocatoria['salario_max'], 2) ?></strong>
@@ -189,7 +189,7 @@ ob_start();
                 <!-- Fecha de Inicio -->
                 <div class="mb-3 pb-3 border-bottom">
                     <div class="d-flex align-items-center">
-                        <i class="ti ti-calendar-event icon me-2 text-muted"></i>
+                        <i class="fas fa-calendar-event icon me-2 text-muted"></i>
                         <div>
                             <small class="text-muted d-block">Fecha de Inicio</small>
                             <strong><?= date('d/m/Y', strtotime($convocatoria['fecha_inicio'])) ?></strong>
@@ -200,7 +200,7 @@ ob_start();
                 <!-- Fecha de Cierre -->
                 <div class="mb-3 pb-3 border-bottom">
                     <div class="d-flex align-items-center">
-                        <i class="ti ti-calendar-x icon me-2 text-muted"></i>
+                        <i class="fas fa-calendar-x icon me-2 text-muted"></i>
                         <div>
                             <small class="text-muted d-block">Fecha de Cierre</small>
                             <strong><?= date('d/m/Y', strtotime($convocatoria['fecha_cierre'])) ?></strong>
@@ -211,7 +211,7 @@ ob_start();
                 <!-- Publicado -->
                 <div class="mb-0">
                     <div class="d-flex align-items-center">
-                        <i class="ti ti-clock icon me-2 text-muted"></i>
+                        <i class="fas fa-clock icon me-2 text-muted"></i>
                         <div>
                             <small class="text-muted d-block">Publicado</small>
                             <strong><?= date('d/m/Y', strtotime($convocatoria['created_at'])) ?></strong>
