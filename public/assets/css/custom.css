@@ -560,14 +560,32 @@ html {
     color: white !important;
 }
 
-.badge.bg-blue-lt {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(102, 126, 234, 0.25) 100%);
-    color: var(--color-primary);
+.badge.bg-blue-lt,
+.bg-blue-lt {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(102, 126, 234, 0.25) 100%) !important;
+    color: var(--color-primary) !important;
+    border: 1px solid rgba(102, 126, 234, 0.3);
 }
 
-.badge.bg-cyan-lt {
-    background: linear-gradient(135deg, rgba(17, 153, 142, 0.15) 0%, rgba(17, 153, 142, 0.25) 100%);
-    color: var(--color-success);
+.badge.bg-cyan-lt,
+.bg-cyan-lt {
+    background: linear-gradient(135deg, rgba(17, 153, 142, 0.15) 0%, rgba(17, 153, 142, 0.25) 100%) !important;
+    color: var(--color-success) !important;
+    border: 1px solid rgba(17, 153, 142, 0.3);
+}
+
+.badge.bg-blue,
+.bg-blue {
+    background: #667eea !important;
+    color: white !important;
+}
+
+.badge.bg-primary,
+.badge.bg-success,
+.badge.bg-info,
+.badge.bg-warning,
+.badge.bg-danger {
+    color: white !important;
 }
 
 /* === Formularios Modernos === */
@@ -733,7 +751,7 @@ html {
 
 /* === Empty States === */
 .empty {
-    padding: 4rem 2rem;
+    padding: 3rem 2rem;
     text-align: center;
 }
 
@@ -744,6 +762,20 @@ html {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.empty-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.empty-subtitle {
+    font-size: 1rem;
+    color: #6c757d;
 }
 
 /* === Tablas Modernas === */
@@ -783,6 +815,59 @@ html {
     position: sticky;
     top: 80px;
     z-index: 1010;
+}
+
+/* === Page Headers === */
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.page-pretitle {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+/* === Card Improvements === */
+.card-title {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* === Text Utilities === */
+.text-muted {
+    color: #6c757d !important;
+}
+
+.fs-6 {
+    font-size: 1rem !important;
+}
+
+/* === Gap Utilities (if not in Bootstrap) === */
+.gap-2 {
+    gap: 0.5rem !important;
+}
+
+.gap-3 {
+    gap: 1rem !important;
+}
+
+.gap-4 {
+    gap: 1.5rem !important;
+}
+
+.g-4 {
+    gap: 1.5rem !important;
 }
 
 /* === Responsive === */

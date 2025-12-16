@@ -2,7 +2,7 @@
 $pageTitle = 'Convocatorias';
 $pageHeader = 'Convocatorias';
 $pageActions = '<a href="' . APP_URL . '/admin/convocatorias/create" class="btn btn-primary">
-    <i class="ti ti-plus icon"></i> Nueva Convocatoria
+    <i class="ti ti-plus""></i> Nueva Convocatoria
 </a>';
 ob_start();
 ?>

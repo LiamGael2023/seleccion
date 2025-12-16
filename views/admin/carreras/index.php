@@ -2,7 +2,7 @@
 $pageTitle = 'Carreras';
 $pageHeader = 'Gestión de Carreras';
 $pageActions = '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaCarrera">
-    <i class="ti ti-plus icon"></i> Nueva Carrera
+    <i class="ti ti-plus""></i> Nueva Carrera
 </button>';
 ob_start();
 ?>

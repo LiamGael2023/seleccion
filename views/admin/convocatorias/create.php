@@ -6,7 +6,7 @@ ob_start();
 
 <div class="alert alert-info">
     <div class="d-flex">
-        <div><i class="ti ti-info-circle icon alert-icon"></i></div>
+        <div><i class="ti ti-info-circle alert-icon"></i></div>
         <div>
             <h4 class="alert-title">Nueva Convocatoria</h4>
             <div class="text-muted">Una convocatoria es un contenedor que agrupa múltiples perfiles o puestos. Por ejemplo: "Prácticas Profesionales Periodo 1" puede contener varios perfiles como "Practicante Ing. Civil", "Practicante Ing. Agrícola", etc.</div>
@@ -82,7 +82,7 @@ ob_start();
             <div class="card-footer text-end">
                 <a href="<?= APP_URL ?>/admin/convocatorias" class="btn btn-link">Cancelar</a>
                 <button type="submit" class="btn btn-primary">
-                    <i class="ti ti-device-floppy icon"></i> Guardar y Agregar Perfiles
+                    <i class="ti ti-device-floppy""></i> Guardar y Agregar Perfiles
                 </button>
             </div>
         </form>

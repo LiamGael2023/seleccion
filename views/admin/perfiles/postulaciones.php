@@ -18,7 +18,7 @@ ob_start();
                     </div>
                     <div class="col-auto">
                         <a href="<?= APP_URL ?>/admin/convocatorias/<?= $convocatoria['id'] ?>/perfiles" class="btn btn-outline-secondary">
-                            <i class="ti ti-arrow-left icon"></i> Volver a Perfiles
+                            <i class="ti ti-arrow-left""></i> Volver a Perfiles
                         </a>
                     </div>
                 </div>

@@ -71,10 +71,10 @@ ob_start();
             <div class="card-footer text-end">
                 <a href="<?= APP_URL ?>/admin/convocatorias" class="btn btn-link">Cancelar</a>
                 <a href="<?= APP_URL ?>/admin/convocatorias/<?= $convocatoria['id'] ?>/perfiles" class="btn btn-info">
-                    <i class="ti ti-list icon"></i> Gestionar Perfiles
+                    <i class="ti ti-list""></i> Gestionar Perfiles
                 </a>
                 <button type="submit" class="btn btn-primary">
-                    <i class="ti ti-device-floppy icon"></i> Actualizar Convocatoria
+                    <i class="ti ti-device-floppy""></i> Actualizar Convocatoria
                 </button>
             </div>
         </form>
