@@ -3,16 +3,31 @@ $pageTitle = 'Postularse - ' . $perfil['titulo'];
 ob_start();
 ?>
 
-<div class="page-header d-print-none mt-4">
+<!-- Header mejorado -->
+<div class="page-header d-print-none mt-4 fade-in">
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <div class="page-pretitle">
-                    <a href="<?= APP_URL ?>/convocatoria/<?= $convocatoria['id'] ?>">← Volver a la convocatoria</a>
+                <div class="page-pretitle mb-2">
+                    <a href="<?= APP_URL ?>/convocatoria/<?= $convocatoria['id'] ?>" class="text-muted">
+                        <i class="ti ti-arrow-left icon me-1"></i>
+                        Volver a la convocatoria
+                    </a>
                 </div>
-                <h2 class="page-title">Postularme</h2>
-                <div class="text-muted mt-1"><strong>Convocatoria:</strong> <?= htmlspecialchars($convocatoria['titulo']) ?></div>
-                <div class="text-muted"><strong>Perfil:</strong> <?= htmlspecialchars($perfil['titulo']) ?></div>
+                <h2 class="page-title mb-2">
+                    <i class="ti ti-file-text icon me-2"></i>
+                    Formulario de Postulación
+                </h2>
+                <div class="mt-2">
+                    <span class="badge bg-blue-lt me-2">
+                        <i class="ti ti-briefcase icon me-1"></i>
+                        <?= htmlspecialchars($convocatoria['titulo']) ?>
+                    </span>
+                    <span class="badge bg-cyan-lt">
+                        <i class="ti ti-target icon me-1"></i>
+                        <?= htmlspecialchars($perfil['titulo']) ?>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -24,10 +39,15 @@ ob_start();
             <input type="hidden" name="convocatoria_id" value="<?= $convocatoria['id'] ?>">
             <input type="hidden" name="perfil_id" value="<?= $perfil['id'] ?>">
 
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Información Personal</h3>
-                </div>
+            <!-- Sección 1: Información Personal -->
+            <div class="aplicacion-section fade-in-delay-1">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="ti ti-user icon me-2"></i>
+                            1. Información Personal
+                        </h3>
+                    </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
@@ -101,12 +121,18 @@ ob_start();
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
 
-            <div class="card mt-3">
-                <div class="card-header">
-                    <h3 class="card-title">Formación Académica</h3>
-                </div>
+            <!-- Sección 2: Formación Académica -->
+            <div class="aplicacion-section fade-in-delay-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="ti ti-school icon me-2"></i>
+                            2. Formación Académica
+                        </h3>
+                    </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
@@ -164,12 +190,18 @@ ob_start();
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
 
-            <div class="card mt-3">
-                <div class="card-header">
-                    <h3 class="card-title">Experiencia y Habilidades</h3>
-                </div>
+            <!-- Sección 3: Experiencia y Habilidades -->
+            <div class="aplicacion-section fade-in-delay-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="ti ti-briefcase icon me-2"></i>
+                            3. Experiencia y Habilidades
+                        </h3>
+                    </div>
                 <div class="card-body">
                     <div class="mb-3">
                         <label class="form-label">Experiencia Laboral</label>
@@ -189,10 +221,19 @@ ob_start();
                         <small class="form-hint">Sube tu CV en formato PDF o Word</small>
                     </div>
                 </div>
+                </div>
             </div>
 
-            <div class="card mt-3">
-                <div class="card-body">
+            <!-- Sección 4: Términos y Condiciones -->
+            <div class="aplicacion-section fade-in-delay-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="ti ti-check icon me-2"></i>
+                            4. Confirmación
+                        </h3>
+                    </div>
+                    <div class="card-body">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="acepto" required>
                         <label class="form-check-label" for="acepto">
@@ -200,35 +241,70 @@ ob_start();
                             conforme a la política de privacidad.
                         </label>
                     </div>
-                </div>
-                <div class="card-footer text-end">
-                    <a href="<?= APP_URL ?>/convocatoria/<?= $convocatoria['id'] ?>" class="btn btn-link">Cancelar</a>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="ti ti-send icon"></i> Enviar Postulación
-                    </button>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a href="<?= APP_URL ?>/convocatoria/<?= $convocatoria['id'] ?>" class="btn btn-link">
+                            <i class="ti ti-arrow-left icon me-1"></i>
+                            Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="ti ti-send icon me-1"></i>
+                            Enviar Postulación
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>
     </div>
 
+    <!-- Sidebar: Información del Perfil -->
     <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Perfil al que te postulas</h3>
+        <div class="card perfil-card fade-in-delay-2 sticky-top" style="top: 20px;">
+            <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h3 class="card-title text-white">
+                    <i class="ti ti-target icon me-2"></i>
+                    Perfil Seleccionado
+                </h3>
             </div>
             <div class="card-body">
-                <h4><?= htmlspecialchars($perfil['titulo']) ?></h4>
-                <div class="mb-2">
-                    <strong>Área:</strong> <?= htmlspecialchars($perfil['area_nombre']) ?>
+                <h4 class="mb-3"><?= htmlspecialchars($perfil['titulo']) ?></h4>
+
+                <div class="mb-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="ti ti-building icon me-2 text-muted"></i>
+                        <div>
+                            <small class="text-muted d-block">Área</small>
+                            <strong><?= htmlspecialchars($perfil['area_nombre']) ?></strong>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-2">
-                    <strong>Vacantes:</strong> <?= $perfil['vacantes'] ?>
+
+                <div class="mb-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="ti ti-users icon me-2 text-muted"></i>
+                        <div>
+                            <small class="text-muted d-block">Vacantes Disponibles</small>
+                            <strong><?= $perfil['vacantes'] ?></strong>
+                        </div>
+                    </div>
                 </div>
+
                 <?php if ($perfil['experiencia_requerida'] > 0): ?>
-                <div class="mb-2">
-                    <strong>Experiencia:</strong> <?= $perfil['experiencia_requerida'] ?> años
+                <div class="mb-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="ti ti-clock icon me-2 text-muted"></i>
+                        <div>
+                            <small class="text-muted d-block">Experiencia Requerida</small>
+                            <strong><?= $perfil['experiencia_requerida'] ?> años</strong>
+                        </div>
+                    </div>
                 </div>
                 <?php endif; ?>
+
+                <div class="alert alert-info mt-4" style="background: linear-gradient(135deg, #3498db10 0%, #2980b910 100%); border-left: 4px solid #3498db;">
+                    <i class="ti ti-info-circle icon me-2"></i>
+                    <strong>Tip:</strong> Asegúrate de completar todos los campos para aumentar tus posibilidades.
+                </div>
             </div>
         </div>
     </div>

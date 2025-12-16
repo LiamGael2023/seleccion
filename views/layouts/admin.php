@@ -7,6 +7,7 @@
     <title><?= $pageTitle ?? 'Admin' ?> - <?= APP_NAME ?></title>
     <link href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta19/dist/css/tabler.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet"/>
+    <link href="<?= APP_URL ?>/assets/css/custom.css" rel="stylesheet"/>
     <style>
         @import url('https://rsms.me/inter/inter.css');
         :root {

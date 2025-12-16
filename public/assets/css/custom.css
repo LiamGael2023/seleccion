@@ -1,0 +1,492 @@
+/* ================================================
+   Custom Styles - Sistema de Selección
+   Mejoras de diseño y UX
+   ================================================ */
+
+/* === Variables personalizadas === */
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
+    --card-shadow-hover: 0 10px 30px rgba(0,0,0,0.1), 0 1px 8px rgba(0,0,0,0.1);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --border-radius-lg: 12px;
+    --border-radius-xl: 16px;
+}
+
+/* === Animaciones === */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* === Estilos generales === */
+body {
+    background: #f4f6f9;
+    overflow-x: hidden;
+}
+
+.page-wrapper {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* === Cards mejoradas === */
+.card {
+    border: none;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition-smooth);
+    overflow: hidden;
+}
+
+.card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-4px);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding: 1.25rem 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Cards de convocatoria en homepage */
+.convocatoria-card {
+    height: 100%;
+    transition: var(--transition-smooth);
+    position: relative;
+    border-radius: var(--border-radius-xl);
+}
+
+.convocatoria-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+    opacity: 0;
+    transition: var(--transition-smooth);
+}
+
+.convocatoria-card:hover::before {
+    opacity: 1;
+}
+
+.convocatoria-card:hover {
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
+    transform: translateY(-8px);
+}
+
+/* === Botones mejorados === */
+.btn {
+    border-radius: 8px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+    border: none;
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: var(--success-gradient);
+    box-shadow: 0 4px 12px rgba(17, 153, 142, 0.3);
+}
+
+.btn-success:hover {
+    box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-sm {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.875rem;
+}
+
+/* === Badges mejorados === */
+.badge {
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.3px;
+}
+
+/* === Formularios mejorados === */
+.form-control,
+.form-select {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    padding: 0.625rem 0.875rem;
+    transition: var(--transition-smooth);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.form-label.required::after {
+    content: '*';
+    color: #dc3545;
+    margin-left: 0.25rem;
+}
+
+/* === Navbar mejorada === */
+.navbar {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    background: white !important;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* === Sidebar mejorada === */
+.navbar-vertical .navbar-nav .nav-link {
+    border-radius: 8px;
+    margin: 0.15rem 0.75rem;
+    transition: var(--transition-smooth);
+}
+
+.navbar-vertical .navbar-nav .nav-link:hover {
+    background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+    transform: translateX(4px);
+}
+
+.navbar-vertical .navbar-nav .nav-link.active {
+    background: var(--primary-gradient);
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.navbar-vertical .navbar-nav .nav-link.active .nav-link-icon {
+    color: white !important;
+}
+
+/* === Tablas mejoradas === */
+.table {
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+}
+
+.table thead th {
+    background: linear-gradient(135deg, #667eea08 0%, #764ba208 100%);
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+    padding: 1rem;
+}
+
+.table tbody tr {
+    transition: var(--transition-smooth);
+}
+
+.table tbody tr:hover {
+    background: rgba(102, 126, 234, 0.03);
+    transform: scale(1.01);
+}
+
+/* === Alertas mejoradas === */
+.alert {
+    border-radius: var(--border-radius-lg);
+    border: none;
+    box-shadow: var(--card-shadow);
+    animation: slideInRight 0.4s ease-out;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #11998e10 0%, #38ef7d10 100%);
+    border-left: 4px solid #11998e;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #eb3b5a10 0%, #fc5c65 10 100%);
+    border-left: 4px solid #eb3b5a;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #3498db10 0%, #2980b910 100%);
+    border-left: 4px solid #3498db;
+}
+
+/* === Header de página === */
+.page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.page-title {
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+/* === Empty states === */
+.empty {
+    padding: 4rem 2rem;
+    text-align: center;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.empty-icon {
+    font-size: 4rem !important;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* === Stats cards (Dashboard) === */
+.stats-card {
+    border-left: 4px solid transparent;
+    transition: var(--transition-smooth);
+}
+
+.stats-card:hover {
+    border-left-color: #667eea;
+    transform: translateX(4px);
+}
+
+/* === Perfiles grid === */
+.perfil-card {
+    border-radius: var(--border-radius-xl);
+    transition: var(--transition-smooth);
+    height: 100%;
+    border: 2px solid transparent;
+}
+
+.perfil-card:hover {
+    border-color: #667eea;
+    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+    transform: translateY(-8px);
+}
+
+/* === Modal mejorado === */
+.modal-content {
+    border: none;
+    border-radius: var(--border-radius-xl);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-radius: var(--border-radius-xl) var(--border-radius-xl) 0 0;
+}
+
+.modal-backdrop.show {
+    opacity: 0.6;
+}
+
+/* === Footer === */
+.footer {
+    background: white;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+/* === Sección de aplicación === */
+.aplicacion-section {
+    margin-bottom: 2rem;
+}
+
+.aplicacion-section .card {
+    border-left: 4px solid #667eea;
+}
+
+.aplicacion-section:nth-child(2) .card {
+    border-left-color: #11998e;
+}
+
+.aplicacion-section:nth-child(3) .card {
+    border-left-color: #f39c12;
+}
+
+.aplicacion-section:nth-child(4) .card {
+    border-left-color: #e74c3c;
+}
+
+/* === Hero section para homepage === */
+.hero-section {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 4rem 0;
+    margin-bottom: 3rem;
+    border-radius: 0 0 var(--border-radius-xl) var(--border-radius-xl);
+    box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.hero-section h1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    opacity: 0.95;
+}
+
+/* === Loading spinner mejorado === */
+.spinner-border {
+    border-color: rgba(102, 126, 234, 0.2);
+    border-right-color: #667eea;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 1.75rem;
+    }
+
+    .hero-section p {
+        font-size: 1rem;
+    }
+
+    .card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* === Scroll suave === */
+html {
+    scroll-behavior: smooth;
+}
+
+/* === Selección de texto === */
+::selection {
+    background: #667eea;
+    color: white;
+}
+
+::-moz-selection {
+    background: #667eea;
+    color: white;
+}
+
+/* === Animaciones de entrada para elementos === */
+.fade-in {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.fade-in-delay-1 {
+    animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.fade-in-delay-2 {
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.fade-in-delay-3 {
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+/* === Mejoras de accesibilidad === */
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* === Tooltips === */
+[data-bs-toggle="tooltip"] {
+    cursor: help;
+}
+
+/* === Estado de carga === */
+.btn.loading {
+    position: relative;
+    color: transparent !important;
+}
+
+.btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-right-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* === Mejoras para impresión === */
+@media print {
+    .navbar,
+    .navbar-vertical,
+    .btn,
+    .footer {
+        display: none !important;
+    }
+
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #dee2e6 !important;
+    }
+}

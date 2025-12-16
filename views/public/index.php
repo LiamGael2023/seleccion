@@ -3,12 +3,13 @@ $pageTitle = 'Convocatorias Disponibles';
 ob_start();
 ?>
 
-<div class="page-header d-print-none mt-4">
+<!-- Hero Section -->
+<div class="hero-section">
     <div class="container-xl">
-        <div class="row g-2 align-items-center">
-            <div class="col">
-                <h2 class="page-title">Convocatorias Disponibles</h2>
-                <div class="text-muted mt-1">Encuentra tu próxima oportunidad profesional</div>
+        <div class="row align-items-center py-4">
+            <div class="col-lg-8 col-md-10 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3">Convocatorias Disponibles</h1>
+                <p class="lead mb-0">Encuentra tu próxima oportunidad profesional y da el siguiente paso en tu carrera</p>
             </div>
         </div>
     </div>
@@ -32,46 +33,48 @@ ob_start();
         </div>
     </div>
     <?php else: ?>
+    <?php $delay = 0; ?>
     <?php foreach ($convocatorias as $conv): ?>
-    <div class="col-md-6 col-lg-4">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title"><?= htmlspecialchars($conv['titulo']) ?></h3>
-                <div class="mb-2">
-                    <span class="badge bg-blue-lt">
-                        <?= ucfirst(str_replace('_', ' ', $conv['tipo_contrato'])) ?>
-                    </span>
-                    <span class="badge bg-cyan-lt">
-                        <?= $conv['total_perfiles'] ?? 0 ?> perfiles disponibles
-                    </span>
-                </div>
-                <div class="text-muted small mb-3">
-                    <i class="ti ti-calendar icon"></i>
-                    Cierre: <?= date('d/m/Y', strtotime($conv['fecha_cierre'])) ?>
-                </div>
-                <?php if (!empty($conv['descripcion'])): ?>
+    <div class="col-md-6 col-lg-4 fade-in-delay-<?= min($delay, 3) ?>">
+        <div class="card convocatoria-card h-100">
+            <div class="card-body d-flex flex-column">
                 <div class="mb-3">
+                    <h3 class="card-title mb-2"><?= htmlspecialchars($conv['titulo']) ?></h3>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <span class="badge bg-blue-lt">
+                            <i class="ti ti-briefcase icon me-1"></i>
+                            <?= ucfirst(str_replace('_', ' ', $conv['tipo_contrato'])) ?>
+                        </span>
+                        <span class="badge bg-cyan-lt">
+                            <i class="ti ti-users icon me-1"></i>
+                            <?= $conv['total_perfiles'] ?? 0 ?> perfiles
+                        </span>
+                    </div>
+                </div>
+
+                <?php if (!empty($conv['descripcion'])): ?>
+                <div class="mb-3 text-muted">
                     <?= nl2br(htmlspecialchars(substr($conv['descripcion'], 0, 150))) ?>
                     <?= strlen($conv['descripcion']) > 150 ? '...' : '' ?>
                 </div>
                 <?php endif; ?>
-                <div class="d-flex">
+
+                <div class="mt-auto">
+                    <div class="d-flex align-items-center text-muted small mb-3">
+                        <i class="ti ti-calendar icon me-2"></i>
+                        <span><strong>Inicio:</strong> <?= date('d/m/Y', strtotime($conv['fecha_inicio'])) ?></span>
+                        <span class="mx-2">•</span>
+                        <span><strong>Cierre:</strong> <?= date('d/m/Y', strtotime($conv['fecha_cierre'])) ?></span>
+                    </div>
                     <a href="<?= APP_URL ?>/convocatoria/<?= $conv['id'] ?>" class="btn btn-primary w-100">
+                        <i class="ti ti-arrow-right icon me-1"></i>
                         Ver Perfiles Disponibles
                     </a>
                 </div>
             </div>
-            <div class="card-footer">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <div class="text-muted small">
-                            Fecha de inicio: <?= date('d/m/Y', strtotime($conv['fecha_inicio'])) ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
+    <?php $delay = ($delay + 1) % 4; ?>
     <?php endforeach; ?>
     <?php endif; ?>
 </div>
