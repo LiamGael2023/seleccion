@@ -12,27 +12,8 @@
     <!-- Font Awesome 6 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Custom CSS -->
+    <!-- Custom CSS (includes Google Fonts) -->
     <link href="<?= APP_URL ?>/assets/css/custom.css" rel="stylesheet"/>
-
-    <style>
-        :root {
-            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --font-headings: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        body {
-            font-family: var(--font-primary);
-            font-feature-settings: "cv03", "cv04", "cv11";
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-headings);
-        }
-    </style>
 </head>
 <body class="admin-layout">
     <!-- Admin Navbar -->
