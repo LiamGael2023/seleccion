@@ -71,13 +71,120 @@ ob_start();
             <div class="card-footer text-end">
                 <a href="<?= APP_URL ?>/admin/convocatorias" class="btn btn-link">Cancelar</a>
                 <a href="<?= APP_URL ?>/admin/convocatorias/<?= $convocatoria['id'] ?>/perfiles" class="btn btn-info">
-                    <i class="ti ti-list""></i> Gestionar Perfiles
+                    <i class="ti ti-list"></i> Gestionar Perfiles
                 </a>
                 <button type="submit" class="btn btn-primary">
-                    <i class="ti ti-device-floppy""></i> Actualizar Convocatoria
+                    <i class="ti ti-device-floppy"></i> Actualizar Convocatoria
                 </button>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- Sección de Anexos PDF -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="ti ti-file-text"></i> Anexos de la Convocatoria
+        </h3>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-info">
+            <div class="d-flex">
+                <div><i class="ti ti-info-circle alert-icon"></i></div>
+                <div>
+                    <h4 class="alert-title">¿Qué son los anexos?</h4>
+                    <div class="text-muted">Los anexos son formatos en PDF que los postulantes deben descargar, llenar y presentar junto con su postulación. Puedes subir declaraciones juradas, formatos de datos personales, etc.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario para subir anexo -->
+        <form action="<?= APP_URL ?>/admin/convocatorias/<?= $convocatoria['id'] ?>/anexos/subir" method="post" enctype="multipart/form-data" class="mb-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label required">Archivo PDF</label>
+                        <input type="file" name="archivo" class="form-control" accept=".pdf" required>
+                        <small class="form-hint">Solo archivos PDF. Tamaño máximo: 10MB</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <input type="text" name="descripcion" class="form-control" placeholder="Ej: Declaración Jurada">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label class="form-label">Orden</label>
+                        <input type="number" name="orden" class="form-control" value="0" min="0">
+                    </div>
+                </div>
+            </div>
+            <div class="form-check mb-3">
+                <input type="checkbox" name="obligatorio" class="form-check-input" id="obligatorio" checked>
+                <label class="form-check-label" for="obligatorio">
+                    Obligatorio (marcar si los postulantes deben descargar este anexo)
+                </label>
+            </div>
+            <button type="submit" class="btn btn-success">
+                <i class="ti ti-upload"></i> Subir Anexo
+            </button>
+        </form>
+
+        <hr>
+
+        <!-- Lista de anexos -->
+        <h4 class="mb-3">Anexos Actuales</h4>
+        <?php if (empty($anexos)): ?>
+            <div class="empty">
+                <div class="empty-icon">
+                    <i class="ti ti-file-off"></i>
+                </div>
+                <p class="empty-title">No hay anexos</p>
+                <p class="empty-subtitle text-muted">
+                    Aún no se han subido anexos para esta convocatoria
+                </p>
+            </div>
+        <?php else: ?>
+            <div class="list-group list-group-flush">
+                <?php foreach ($anexos as $anexo): ?>
+                    <div class="list-group-item">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <span class="avatar" style="background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiPjwvcGF0aD48cG9seWxpbmUgcG9pbnRzPSIxNCAyIDE0IDggMjAgOCI+PC9wb2x5bGluZT48L3N2Zz4=)"></span>
+                            </div>
+                            <div class="col">
+                                <div class="d-flex align-items-center">
+                                    <strong><?= htmlspecialchars($anexo['nombre_original']) ?></strong>
+                                    <?php if ($anexo['obligatorio']): ?>
+                                        <span class="badge bg-red ms-2">Obligatorio</span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="text-muted mt-1">
+                                    <?php if (!empty($anexo['descripcion'])): ?>
+                                        <?= htmlspecialchars($anexo['descripcion']) ?> •
+                                    <?php endif; ?>
+                                    <?= require_once BASE_PATH . '/models/ConvocatoriaAnexo.php'; echo ConvocatoriaAnexo::formatearTamanio($anexo['tamanio']); ?>
+                                    • Subido: <?= date('d/m/Y', strtotime($anexo['created_at'])) ?>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <a href="<?= APP_URL ?>/anexo/<?= $anexo['id'] ?>/descargar" class="btn btn-sm btn-primary" target="_blank">
+                                    <i class="ti ti-download"></i> Descargar
+                                </a>
+                                <a href="<?= APP_URL ?>/admin/convocatorias/<?= $convocatoria['id'] ?>/anexos/<?= $anexo['id'] ?>/eliminar"
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('¿Estás seguro de eliminar este anexo?')">
+                                    <i class="ti ti-trash"></i> Eliminar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 

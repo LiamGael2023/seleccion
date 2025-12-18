@@ -3,6 +3,7 @@ require_once BASE_PATH . '/core/Controller.php';
 require_once BASE_PATH . '/models/Convocatoria.php';
 require_once BASE_PATH . '/models/Area.php';
 require_once BASE_PATH . '/models/Carrera.php';
+require_once BASE_PATH . '/models/ConvocatoriaAnexo.php';
 
 class ConvocatoriaController extends Controller {
 
@@ -49,7 +50,11 @@ class ConvocatoriaController extends Controller {
         $convocatoriaModel = new Convocatoria();
         $convocatoria = $convocatoriaModel->find($id);
 
-        $this->view('admin/convocatorias/edit', compact('convocatoria'));
+        // Obtener anexos de la convocatoria
+        $anexoModel = new ConvocatoriaAnexo();
+        $anexos = $anexoModel->getByConvocatoria($id);
+
+        $this->view('admin/convocatorias/edit', compact('convocatoria', 'anexos'));
     }
 
     public function update($id) {
@@ -105,5 +110,101 @@ class ConvocatoriaController extends Controller {
 
         $result = $postulacionModel->update($_POST['id'], $data);
         $this->json(['success' => $result]);
+    }
+
+    /**
+     * Subir anexo a una convocatoria
+     */
+    public function subirAnexo($convocatoriaId) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $_SESSION['error'] = 'Método no permitido';
+            $this->redirect('/admin/convocatorias/' . $convocatoriaId . '/edit');
+        }
+
+        // Verificar que se subió un archivo
+        if (!isset($_FILES['archivo']) || $_FILES['archivo']['error'] !== UPLOAD_ERR_OK) {
+            $_SESSION['error'] = 'Error al subir el archivo';
+            $this->redirect('/admin/convocatorias/' . $convocatoriaId . '/edit');
+        }
+
+        $anexoModel = new ConvocatoriaAnexo();
+
+        // Guardar archivo
+        $resultado = $anexoModel->guardarArchivo($_FILES['archivo'], $convocatoriaId);
+
+        if (!$resultado['success']) {
+            $_SESSION['error'] = $resultado['error'];
+            $this->redirect('/admin/convocatorias/' . $convocatoriaId . '/edit');
+        }
+
+        // Guardar en base de datos
+        $data = [
+            'convocatoria_id' => $convocatoriaId,
+            'nombre_original' => $resultado['nombre_original'],
+            'nombre_archivo' => $resultado['nombre_archivo'],
+            'ruta_archivo' => $resultado['ruta_archivo'],
+            'tamanio' => $resultado['tamanio'],
+            'descripcion' => $_POST['descripcion'] ?? '',
+            'orden' => $_POST['orden'] ?? 0,
+            'obligatorio' => isset($_POST['obligatorio']) ? 1 : 0
+        ];
+
+        $anexoId = $anexoModel->create($data);
+
+        if ($anexoId) {
+            $_SESSION['success'] = 'Anexo subido exitosamente';
+        } else {
+            $_SESSION['error'] = 'Error al guardar el anexo en la base de datos';
+        }
+
+        $this->redirect('/admin/convocatorias/' . $convocatoriaId . '/edit');
+    }
+
+    /**
+     * Eliminar anexo
+     */
+    public function eliminarAnexo($convocatoriaId, $anexoId) {
+        $anexoModel = new ConvocatoriaAnexo();
+
+        if ($anexoModel->delete($anexoId)) {
+            $_SESSION['success'] = 'Anexo eliminado exitosamente';
+        } else {
+            $_SESSION['error'] = 'Error al eliminar el anexo';
+        }
+
+        $this->redirect('/admin/convocatorias/' . $convocatoriaId . '/edit');
+    }
+
+    /**
+     * Descargar anexo (público)
+     */
+    public function descargarAnexo($anexoId) {
+        $anexoModel = new ConvocatoriaAnexo();
+        $anexo = $anexoModel->find($anexoId);
+
+        if (!$anexo) {
+            http_response_code(404);
+            die('Anexo no encontrado');
+        }
+
+        $rutaCompleta = BASE_PATH . '/' . $anexo['ruta_archivo'];
+
+        if (!file_exists($rutaCompleta)) {
+            http_response_code(404);
+            die('Archivo no encontrado');
+        }
+
+        // Enviar headers para descarga
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $anexo['nombre_original'] . '"');
+        header('Content-Length: ' . filesize($rutaCompleta));
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Pragma: public');
+
+        // Limpiar buffer y enviar archivo
+        ob_clean();
+        flush();
+        readfile($rutaCompleta);
+        exit;
     }
 }

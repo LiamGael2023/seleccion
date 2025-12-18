@@ -39,6 +39,13 @@ $router->get('/admin/convocatorias/{id}/delete', 'ConvocatoriaController@delete'
 $router->get('/admin/convocatorias/{id}/postulaciones', 'ConvocatoriaController@postulaciones');
 $router->post('/admin/convocatorias/postulacion/update', 'ConvocatoriaController@updatePostulacion');
 
+// Rutas de administración - Anexos de Convocatorias
+$router->post('/admin/convocatorias/{id}/anexos/subir', 'ConvocatoriaController@subirAnexo');
+$router->get('/admin/convocatorias/{convocatoria_id}/anexos/{anexo_id}/eliminar', 'ConvocatoriaController@eliminarAnexo');
+
+// Ruta pública - Descargar anexo
+$router->get('/anexo/{id}/descargar', 'ConvocatoriaController@descargarAnexo');
+
 // Rutas de administración - Áreas
 $router->get('/admin/areas', 'AreaController@index');
 $router->post('/admin/areas/store', 'AreaController@store');
