@@ -217,30 +217,36 @@ ob_start();
             <!-- Card de Anexos -->
             <?php if (!empty($anexos)): ?>
             <div class="card mt-4 fade-in-delay-2">
-                <div class="card-header text-white" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <div class="card-header bg-pink text-white">
                     <h5 class="card-title mb-0">
-                        <i class="fas fa-file-pdf me-2"></i>
+                        <i class="ti ti-file-text me-2"></i>
                         Anexos y Formatos
                     </h5>
                 </div>
                 <div class="card-body">
-                    <p class="text-muted mb-3">
-                        <i class="fas fa-info-circle me-1"></i>
-                        Descarga los siguientes formatos que debes llenar y presentar con tu postulación:
-                    </p>
+                    <div class="alert alert-info">
+                        <div class="d-flex">
+                            <div><i class="ti ti-info-circle me-2"></i></div>
+                            <div>
+                                Descarga los siguientes formatos que debes llenar y presentar con tu postulación.
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="list-group list-group-flush">
                         <?php foreach ($anexos as $index => $anexo): ?>
-                        <div class="list-group-item px-0">
+                        <div class="list-group-item">
                             <div class="row align-items-center">
                                 <div class="col-auto">
-                                    <span class="avatar avatar-md" style="background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZjAwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTQgMkg2YTIgMiAwIDAgMC0yIDJ2MTZhMiAyIDAgMCAwIDIgMmgxMmEyIDIgMCAwIDAgMi0yVjh6Ij48L3BhdGg+PHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiPjwvcG9seWxpbmU+PHBhdGggZD0iTTkgMTVoNiI+PC9wYXRoPjxwYXRoIGQ9Ik05IDExaDYiPjwvcGF0aD48L3N2Zz4=)"></span>
+                                    <span class="avatar bg-red-lt">
+                                        <i class="ti ti-file-type-pdf"></i>
+                                    </span>
                                 </div>
                                 <div class="col">
                                     <div class="d-flex align-items-center">
                                         <strong><?= htmlspecialchars($anexo['nombre_original']) ?></strong>
                                         <?php if ($anexo['obligatorio']): ?>
-                                            <span class="badge bg-red-lt ms-2">Obligatorio</span>
+                                            <span class="badge bg-red ms-2">Obligatorio</span>
                                         <?php endif; ?>
                                     </div>
                                     <?php if (!empty($anexo['descripcion'])): ?>
@@ -251,7 +257,7 @@ ob_start();
                                     <a href="<?= APP_URL ?>/anexo/<?= $anexo['id'] ?>/descargar"
                                        class="btn btn-primary btn-sm"
                                        target="_blank">
-                                        <i class="fas fa-download me-1"></i>
+                                        <i class="ti ti-download me-1"></i>
                                         Descargar
                                     </a>
                                 </div>
@@ -266,7 +272,7 @@ ob_start();
                     ?>
                     <div class="alert alert-warning mt-3 mb-0">
                         <div class="d-flex">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <div><i class="ti ti-alert-triangle me-2"></i></div>
                             <div>
                                 <strong>Importante:</strong> Los anexos marcados como "Obligatorio" deben ser descargados, llenados correctamente y presentados junto con tu CV.
                             </div>
