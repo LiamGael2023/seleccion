@@ -31,10 +31,27 @@ class PublicController extends Controller {
             $perfil['carreras'] = $perfilModel->getCarreras($perfil['id']);
         }
 
-        $this->view('public/detalle', compact('convocatoria', 'perfiles'));
+        // Verificar si el usuario ya se postuló a esta convocatoria
+        $postulacionExistente = false;
+        if (isset($_SESSION['postulante_id'])) {
+            $postulacionModel = new Postulacion();
+            $postulacionExistente = $postulacionModel->tienePostulacionEnConvocatoria(
+                $id,
+                $_SESSION['postulante_id']
+            );
+        }
+
+        $this->view('public/detalle', compact('convocatoria', 'perfiles', 'postulacionExistente'));
     }
 
     public function aplicar($perfilId) {
+        // Verificar que el postulante esté autenticado
+        if (!isset($_SESSION['postulante_id'])) {
+            $_SESSION['error'] = 'Debes iniciar sesión para postularte';
+            $_SESSION['return_url'] = '/perfil/' . $perfilId . '/aplicar';
+            $this->redirect('/postulante/login');
+        }
+
         $perfilModel = new Perfil();
         $perfil = $perfilModel->getById($perfilId);
 
@@ -49,11 +66,32 @@ class PublicController extends Controller {
             $this->redirect('/');
         }
 
+        // Verificar si ya se postuló a algún perfil de esta convocatoria
+        $postulacionModel = new Postulacion();
+        $postulacionExistente = $postulacionModel->tienePostulacionEnConvocatoria(
+            $perfil['convocatoria_id'],
+            $_SESSION['postulante_id']
+        );
+
+        if ($postulacionExistente) {
+            $_SESSION['error'] = 'Ya te postulaste al perfil "' . $postulacionExistente['perfil_titulo'] .
+                                 '" de esta convocatoria. Solo puedes postularte a un perfil por convocatoria.';
+            $this->redirect('/convocatoria/' . $perfil['convocatoria_id']);
+        }
+
         $carreras = $perfilModel->getCarreras($perfilId);
         $carreraModel = new Carrera();
-        $todasCarreras = $carreraModel->getActive();
+        $carrerasAgrupadas = $carreraModel->getActiveGroupedByCategoria();
 
-        $this->view('public/aplicar', compact('convocatoria', 'perfil', 'carreras', 'todasCarreras'));
+        // Pasar datos del postulante al formulario
+        $postulante = [
+            'nombres' => $_SESSION['postulante_nombres'] ?? '',
+            'apellido_paterno' => $_SESSION['postulante_apellido_paterno'] ?? '',
+            'apellido_materno' => $_SESSION['postulante_apellido_materno'] ?? '',
+            'email' => $_SESSION['postulante_email'] ?? ''
+        ];
+
+        $this->view('public/aplicar', compact('convocatoria', 'perfil', 'carreras', 'carrerasAgrupadas', 'postulante'));
     }
 
     public function postular() {
@@ -61,25 +99,51 @@ class PublicController extends Controller {
             $this->redirect('/');
         }
 
+        // Verificar que el postulante esté autenticado
+        if (!isset($_SESSION['postulante_id'])) {
+            $_SESSION['error'] = 'Debes iniciar sesión para postularte';
+            $this->redirect('/postulante/login');
+        }
+
         $candidatoModel = new Candidato();
         $postulacionModel = new Postulacion();
 
-        // Crear candidato
+        // Verificar si ya se postuló a algún perfil de esta convocatoria
+        $postulacionExistente = $postulacionModel->tienePostulacionEnConvocatoria(
+            $_POST['convocatoria_id'],
+            $_SESSION['postulante_id']
+        );
+
+        if ($postulacionExistente) {
+            $_SESSION['error'] = 'Ya te postulaste al perfil "' . $postulacionExistente['perfil_titulo'] .
+                                 '" de esta convocatoria. Solo puedes postularte a un perfil por convocatoria.';
+            $this->redirect('/convocatoria/' . $_POST['convocatoria_id']);
+        }
+
+        // Crear candidato vinculado al usuario postulante
+        // Los datos de nombre, apellido y email se toman de la sesión
         $candidatoData = [
-            'nombre' => $_POST['nombre'],
-            'apellido_paterno' => $_POST['apellido_paterno'],
-            'apellido_materno' => $_POST['apellido_materno'] ?? '',
-            'email' => $_POST['email'],
+            'usuario_postulante_id' => $_SESSION['postulante_id'],
+            'nombre' => $_SESSION['postulante_nombres'],
+            'apellido_paterno' => $_SESSION['postulante_apellido_paterno'],
+            'apellido_materno' => $_SESSION['postulante_apellido_materno'] ?? '',
+            'email' => $_SESSION['postulante_email'],
             'telefono' => $_POST['telefono'] ?? '',
-            'fecha_nacimiento' => $_POST['fecha_nacimiento'] ?? null,
+            'fecha_nacimiento' => !empty($_POST['fecha_nacimiento']) ? $_POST['fecha_nacimiento'] : null,
+            'sexo' => !empty($_POST['sexo']) ? $_POST['sexo'] : null,
+            'presenta_discapacidad' => $_POST['presenta_discapacidad'] ?? 'no',
+            'tipo_discapacidad' => ($_POST['presenta_discapacidad'] === 'si') ? ($_POST['tipo_discapacidad'] ?? null) : null,
             'direccion' => $_POST['direccion'] ?? '',
             'ciudad' => $_POST['ciudad'] ?? '',
             'estado' => $_POST['estado'] ?? '',
             'codigo_postal' => $_POST['codigo_postal'] ?? '',
-            'carrera_id' => $_POST['carrera_id'] ?? null,
-            'nivel_estudios' => $_POST['nivel_estudios'] ?? null,
+            'carrera_id' => !empty($_POST['carrera_id']) ? $_POST['carrera_id'] : null,
+            'carrera_universitaria' => !empty($_POST['carrera_universitaria']) ? $_POST['carrera_universitaria'] : null,
+            'nivel_estudios' => !empty($_POST['nivel_estudios']) ? $_POST['nivel_estudios'] : null,
             'institucion' => $_POST['institucion'] ?? '',
-            'anio_graduacion' => $_POST['anio_graduacion'] ?? null,
+            'anio_graduacion' => !empty($_POST['anio_graduacion']) ? $_POST['anio_graduacion'] : null,
+            'mes_egresado_sunedu' => !empty($_POST['mes_egresado_sunedu']) ? $_POST['mes_egresado_sunedu'] : null,
+            'anio_egresado_sunedu' => !empty($_POST['anio_egresado_sunedu']) ? $_POST['anio_egresado_sunedu'] : null,
             'experiencia_laboral' => $_POST['experiencia_laboral'] ?? '',
             'habilidades' => $_POST['habilidades'] ?? ''
         ];
@@ -91,6 +155,14 @@ class PublicController extends Controller {
             $cvPath = $candidatoModel->uploadCV($_FILES['cv'], $candidatoId);
             if ($cvPath) {
                 $candidatoModel->update($candidatoId, ['cv_path' => $cvPath]);
+            }
+        }
+
+        // Subir foto si existe
+        if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+            $fotoPath = $candidatoModel->uploadFoto($_FILES['foto'], $candidatoId);
+            if ($fotoPath) {
+                $candidatoModel->update($candidatoId, ['foto_path' => $fotoPath]);
             }
         }
 

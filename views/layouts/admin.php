@@ -15,12 +15,43 @@
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
         }
+        /* Estilos personalizados para la navbar */
+        .navbar.custom-navbar {
+            background: linear-gradient(135deg, #066fd1 0%, #0a8fff 100%) !important;
+            box-shadow: 0 2px 8px rgba(6, 111, 209, 0.3);
+        }
+        .navbar.custom-navbar .navbar-brand a,
+        .navbar.custom-navbar .nav-link,
+        .navbar.custom-navbar .nav-link-title {
+            color: #ffffff !important;
+        }
+        .navbar.custom-navbar .nav-link:hover,
+        .navbar.custom-navbar .nav-link:focus {
+            color: #e8f4ff !important;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        .navbar.custom-navbar .nav-link-icon i {
+            color: #ffffff !important;
+        }
+        .navbar.custom-navbar .dropdown-toggle {
+            color: #ffffff !important;
+        }
+        .navbar.custom-navbar .navbar-toggler-icon {
+            filter: brightness(0) invert(1);
+        }
+        .navbar.custom-navbar .text-muted {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+        .navbar.custom-navbar .text-reset {
+            color: #ffffff !important;
+        }
     </style>
 </head>
 <body>
     <div class="page">
         <!-- Navbar -->
-        <header class="navbar navbar-expand-md navbar-light d-print-none">
+        <header class="navbar navbar-expand-md custom-navbar d-print-none">
             <div class="container-xl">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
                     <span class="navbar-toggler-icon"></span>
@@ -48,7 +79,7 @@
         </header>
         <div class="navbar-expand-md">
             <div class="collapse navbar-collapse" id="navbar-menu">
-                <div class="navbar navbar-light">
+                <div class="navbar custom-navbar">
                     <div class="container-xl">
                         <ul class="navbar-nav">
                             <li class="nav-item">
@@ -75,13 +106,24 @@
                                     <span class="nav-link-title">Áreas</span>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="<?= APP_URL ?>/admin/carreras">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#navbar-carreras" data-bs-toggle="dropdown" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
                                         <i class="ti ti-school"></i>
                                     </span>
                                     <span class="nav-link-title">Carreras</span>
                                 </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="<?= APP_URL ?>/admin/carreras">
+                                        <i class="ti ti-list icon"></i> Gestión de Carreras
+                                    </a>
+                                    <a class="dropdown-item" href="<?= APP_URL ?>/admin/categorias-carreras">
+                                        <i class="ti ti-folders icon"></i> Categorías
+                                    </a>
+                                    <a class="dropdown-item" href="<?= APP_URL ?>/admin/niveles-estudio">
+                                        <i class="ti ti-certificate icon"></i> Niveles de Estudio
+                                    </a>
+                                </div>
                             </li>
                         </ul>
                     </div>

@@ -77,9 +77,19 @@ class ConvocatoriaController extends Controller {
 
     public function delete($id) {
         $convocatoriaModel = new Convocatoria();
-        $convocatoriaModel->delete($id);
 
-        $_SESSION['success'] = 'Convocatoria eliminada exitosamente';
+        try {
+            $result = $convocatoriaModel->delete($id);
+
+            if ($result) {
+                $_SESSION['success'] = 'Convocatoria eliminada exitosamente';
+            } else {
+                $_SESSION['error'] = 'No se pudo eliminar la convocatoria';
+            }
+        } catch (Exception $e) {
+            $_SESSION['error'] = 'Error al eliminar la convocatoria: ' . $e->getMessage();
+        }
+
         $this->redirect('/admin/convocatorias');
     }
 

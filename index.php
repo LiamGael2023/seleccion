@@ -21,7 +21,15 @@ $router->get('/convocatoria/{id}', 'PublicController@show');
 $router->get('/perfil/{id}/aplicar', 'PublicController@aplicar');
 $router->post('/postular', 'PublicController@postular');
 
-// Rutas de autenticación
+// Rutas de autenticación de postulantes
+$router->get('/postulante/registro', 'PostulanteAuthController@registro');
+$router->post('/postulante/registro', 'PostulanteAuthController@registroPost');
+$router->get('/postulante/login', 'PostulanteAuthController@login');
+$router->post('/postulante/login', 'PostulanteAuthController@loginPost');
+$router->get('/postulante/logout', 'PostulanteAuthController@logout');
+$router->get('/api/consultar-dni', 'PostulanteAuthController@consultarDni');
+
+// Rutas de autenticación administrativa
 $router->get('/login', 'AuthController@login');
 $router->post('/login', 'AuthController@login');
 $router->get('/logout', 'AuthController@logout');
@@ -50,6 +58,18 @@ $router->get('/admin/carreras', 'CarreraController@index');
 $router->post('/admin/carreras/store', 'CarreraController@store');
 $router->post('/admin/carreras/{id}/update', 'CarreraController@update');
 $router->get('/admin/carreras/{id}/delete', 'CarreraController@delete');
+
+// Rutas de administración - Categorías de Carreras
+$router->get('/admin/categorias-carreras', 'CategoriaCarreraController@index');
+$router->post('/admin/categorias-carreras/store', 'CategoriaCarreraController@store');
+$router->post('/admin/categorias-carreras/{id}/update', 'CategoriaCarreraController@update');
+$router->get('/admin/categorias-carreras/{id}/delete', 'CategoriaCarreraController@delete');
+
+// Rutas de administración - Niveles de Estudio
+$router->get('/admin/niveles-estudio', 'NivelEstudioController@index');
+$router->post('/admin/niveles-estudio/store', 'NivelEstudioController@store');
+$router->post('/admin/niveles-estudio/{id}/update', 'NivelEstudioController@update');
+$router->get('/admin/niveles-estudio/{id}/delete', 'NivelEstudioController@delete');
 
 // Rutas de administración - Perfiles
 $router->get('/admin/convocatorias/{id}/perfiles', 'PerfilController@list');

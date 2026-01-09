@@ -9,7 +9,7 @@ ob_start();
         <div class="card">
             <div class="card-body">
                 <h3><?= htmlspecialchars($convocatoria['titulo']) ?></h3>
-                <div class="text-muted">Área: <?= htmlspecialchars($convocatoria['area_nombre']) ?></div>
+                <div class="text-muted">Áreas: <?= htmlspecialchars($convocatoria['areas_nombres'] ?? 'Sin áreas asignadas') ?></div>
                 <div class="text-muted">Fecha de cierre: <?= date('d/m/Y', strtotime($convocatoria['fecha_cierre'])) ?></div>
             </div>
         </div>
@@ -121,7 +121,8 @@ ob_start();
 </div>
 
 <?php
-$customScripts = <<<'HTML'
+$appUrl = APP_URL;
+$customScripts = <<<HTML
 <script>
 function editarPostulacion(id, estado, puntuacion, comentarios) {
     document.getElementById('postulacion_id').value = id;
@@ -138,7 +139,7 @@ document.getElementById('formEditarPostulacion').addEventListener('submit', func
 
     var formData = new FormData(this);
 
-    fetch('<?= APP_URL ?>/admin/convocatorias/postulacion/update', {
+    fetch('$appUrl/admin/convocatorias/postulacion/update', {
         method: 'POST',
         body: formData
     })

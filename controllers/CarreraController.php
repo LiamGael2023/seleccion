@@ -1,6 +1,8 @@
 <?php
 require_once BASE_PATH . '/core/Controller.php';
 require_once BASE_PATH . '/models/Carrera.php';
+require_once BASE_PATH . '/models/CategoriaCarrera.php';
+require_once BASE_PATH . '/models/NivelEstudio.php';
 
 class CarreraController extends Controller {
 
@@ -10,9 +12,14 @@ class CarreraController extends Controller {
 
     public function index() {
         $carreraModel = new Carrera();
-        $carreras = $carreraModel->all('nombre', 'ASC');
+        $categoriaModel = new CategoriaCarrera();
+        $nivelModel = new NivelEstudio();
 
-        $this->view('admin/carreras/index', compact('carreras'));
+        $carreras = $carreraModel->getAllWithCategoria();
+        $categorias = $categoriaModel->getActive();
+        $niveles = $nivelModel->getActive();
+
+        $this->view('admin/carreras/index', compact('carreras', 'categorias', 'niveles'));
     }
 
     public function store() {
@@ -22,7 +29,8 @@ class CarreraController extends Controller {
 
         $data = [
             'nombre' => $_POST['nombre'],
-            'nivel' => $_POST['nivel']
+            'nivel_id' => !empty($_POST['nivel_id']) ? $_POST['nivel_id'] : null,
+            'categoria_id' => !empty($_POST['categoria_id']) ? $_POST['categoria_id'] : null
         ];
 
         $carreraModel = new Carrera();
@@ -39,7 +47,8 @@ class CarreraController extends Controller {
 
         $data = [
             'nombre' => $_POST['nombre'],
-            'nivel' => $_POST['nivel']
+            'nivel_id' => !empty($_POST['nivel_id']) ? $_POST['nivel_id'] : null,
+            'categoria_id' => !empty($_POST['categoria_id']) ? $_POST['categoria_id'] : null
         ];
 
         $carreraModel = new Carrera();

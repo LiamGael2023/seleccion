@@ -132,7 +132,8 @@ ob_start();
 </div>
 
 <?php
-$customScripts = <<<'HTML'
+$appUrl = APP_URL;
+$customScripts = <<<HTML
 <script>
 function editarPostulacion(id, estado, puntuacion, comentarios) {
     document.getElementById('postulacion_id').value = id;
@@ -149,7 +150,7 @@ document.getElementById('formEditarPostulacion').addEventListener('submit', func
 
     var formData = new FormData(this);
 
-    fetch('<?= APP_URL ?>/admin/convocatorias/postulacion/update', {
+    fetch('$appUrl/admin/convocatorias/postulacion/update', {
         method: 'POST',
         body: formData
     })

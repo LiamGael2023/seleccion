@@ -15,6 +15,25 @@ class Postulacion extends Model {
         return $result[0]['total'] > 0;
     }
 
+    /**
+     * Verificar si un usuario postulante ya se postuló a algún perfil de una convocatoria
+     * Retorna false si no tiene postulación, o un array con los datos de la postulación existente
+     */
+    public function tienePostulacionEnConvocatoria($convocatoriaId, $usuarioPostulanteId) {
+        $sql = "SELECT p.*, pf.titulo as perfil_titulo
+                FROM {$this->table} p
+                INNER JOIN candidatos c ON p.candidato_id = c.id
+                INNER JOIN perfiles_convocatoria pf ON p.perfil_id = pf.id
+                WHERE p.convocatoria_id = :convocatoria_id
+                AND c.usuario_postulante_id = :usuario_postulante_id
+                LIMIT 1";
+        $result = $this->query($sql, [
+            'convocatoria_id' => $convocatoriaId,
+            'usuario_postulante_id' => $usuarioPostulanteId
+        ]);
+        return $result[0] ?? false;
+    }
+
     public function getEstadisticas() {
         $sql = "SELECT estado, COUNT(*) as total
                 FROM {$this->table}
