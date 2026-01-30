@@ -84,7 +84,7 @@ ob_start();
             <div class="card-footer text-end">
                 <a href="<?= APP_URL ?>/admin/convocatorias/<?= $convocatoria['id'] ?>/perfiles" class="btn btn-link">Cancelar</a>
                 <button type="submit" class="btn btn-primary">
-                    <i class="ti ti-device-floppy icon"></i> Guardar Perfil
+                    <i class="ti ti-device-floppy""></i> Guardar Perfil
                 </button>
             </div>
         </form>

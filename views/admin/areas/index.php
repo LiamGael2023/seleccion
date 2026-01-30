@@ -2,7 +2,7 @@
 $pageTitle = 'Áreas';
 $pageHeader = 'Gestión de Áreas';
 $pageActions = '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaArea">
-    <i class="ti ti-plus icon"></i> Nueva Área
+    <i class="ti ti-plus""></i> Nueva Área
 </button>';
 ob_start();
 ?>

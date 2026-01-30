@@ -5,6 +5,7 @@ require_once BASE_PATH . '/models/Perfil.php';
 require_once BASE_PATH . '/models/Candidato.php';
 require_once BASE_PATH . '/models/Postulacion.php';
 require_once BASE_PATH . '/models/Carrera.php';
+require_once BASE_PATH . '/models/ConvocatoriaAnexo.php';
 
 class PublicController extends Controller {
 
@@ -31,7 +32,11 @@ class PublicController extends Controller {
             $perfil['carreras'] = $perfilModel->getCarreras($perfil['id']);
         }
 
-        $this->view('public/detalle', compact('convocatoria', 'perfiles'));
+        // Obtener anexos de la convocatoria
+        $anexoModel = new ConvocatoriaAnexo();
+        $anexos = $anexoModel->getByConvocatoria($id);
+
+        $this->view('public/detalle', compact('convocatoria', 'perfiles', 'anexos'));
     }
 
     public function aplicar($perfilId) {
